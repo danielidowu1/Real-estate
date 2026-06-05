@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Investment Returns | Dimora View Properties</title>
+<meta name="description" content="Build long-term wealth with Dimora View Properties — capital appreciation, the Pedal rental income program, and a calculator to project your returns." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+.page-hero::before { background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1800&auto=format&fit=crop&q=80'); }
+/* CALCULATOR */
+.calc { background: var(--charcoal); color: var(--warm-white); padding: 100px 60px; position: relative; overflow: hidden; }
+.calc::before { content:''; position:absolute; bottom:-140px; left:-120px; width:480px; height:480px; background: radial-gradient(circle, rgba(201,168,76,.12) 0%, transparent 70%); }
+.calc .section-title { color: var(--warm-white); }
+.calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 52px; position: relative; z-index: 2; }
+.calc-controls label { display: block; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(247,243,237,.6); margin: 26px 0 12px; }
+.calc-controls input[type=range] { width: 100%; accent-color: var(--gold); }
+.calc-val { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--gold-light); }
+.calc-result { background: rgba(255,255,255,.05); border: 1px solid rgba(201,168,76,.25); border-radius: 6px; padding: 40px; display: flex; flex-direction: column; justify-content: center; gap: 26px; }
+.res-row { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 18px; border-bottom: 1px solid rgba(247,243,237,.1); }
+.res-row:last-child { border: none; padding-bottom: 0; }
+.res-label { font-size: .85rem; color: rgba(247,243,237,.6); }
+.res-num { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 300; color: var(--gold-light); }
+.steps { padding: 100px 60px; background: var(--ivory); }
+.steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; margin-top: 52px; }
+.step { background: white; border-radius: 4px; padding: 32px 26px; border: 1px solid var(--border); }
+.step-num { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; color: var(--gold); line-height: 1; }
+.step h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; margin: 12px 0 8px; }
+.step p { font-size: .85rem; color: var(--muted); line-height: 1.65; }
+@media (max-width: 900px) {
+  .calc { padding: 60px 28px; } .calc-grid { grid-template-columns: 1fr; gap: 36px; }
+  .calc-result { padding: 28px; } .res-num { font-size: 2rem; }
+  .steps { padding: 60px 28px; } .steps-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+}
+@media (max-width: 600px) { .steps-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav id="mainNav" class="solid">
+  <a href="index.html" class="nav-logo">Dimora View</a>
+  <ul class="nav-links">
+    <li><a href="locations.html">Locations</a></li>
+    <li><a href="listings.html">Properties</a></li>
+    <li><a href="investment.html" class="active">Investment</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Viewing</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="locations.html">Locations</a><a href="listings.html">Properties</a>
+  <a href="investment.html">Investment</a><a href="about.html">About</a>
+  <a href="admin.html">Admin</a><a href="contact.html">Book Viewing</a>
+</div>
+
+<header class="page-hero" style="padding-top:120px;">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> / Investment</div>
+    <p class="hero-eyebrow">Why Invest with Us</p>
+    <h1>Long-term wealth.<br><em>Real</em> annual returns.</h1>
+    <p>Many of our properties sit on high-demand rental corridors, delivering consistent passive income alongside capital appreciation.</p>
+  </div>
+</header>
+
+<!-- WHY (reuses invest cards + chart) -->
+<section class="invest-section">
+  <p class="section-eyebrow">The Dimora Advantage</p>
+  <h2 class="section-title">Four pillars of<br>every Dimora investment</h2>
+  <div class="invest-grid">
+    <div class="invest-cards" id="investCards"></div>
+    <div class="invest-stats">
+      <div class="big-stat"><div class="big-num">14.2%</div><div class="big-lbl">Average annual rental yield across our portfolio</div></div>
+      <div class="big-stat"><div class="big-num">3.8×</div><div class="big-lbl">Average 10-year capital growth multiple for investors</div></div>
+      <div class="invest-chart">
+        <div class="chart-label">Projected Annual Returns (%)</div>
+        <div id="returnChart"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR (dynamic) -->
+<section class="calc">
+  <p class="section-eyebrow">Project Your Returns</p>
+  <h2 class="section-title">Investment calculator</h2>
+  <div class="calc-grid">
+    <div class="calc-controls">
+      <label>Investment Amount — <span class="calc-val" id="amtLbl">₦100M</span></label>
+      <input type="range" id="amt" min="10" max="1000" step="5" value="100" />
+      <label>Expected Annual Yield — <span class="calc-val" id="yldLbl">14%</span></label>
+      <input type="range" id="yld" min="6" max="22" step="0.5" value="14" />
+      <label>Holding Period — <span class="calc-val" id="yrLbl">5 yrs</span></label>
+      <input type="range" id="yrs" min="1" max="15" step="1" value="5" />
+    </div>
+    <div class="calc-result">
+      <div class="res-row"><span class="res-label">Annual rental income</span><span class="res-num" id="annual">—</span></div>
+      <div class="res-row"><span class="res-label">Total rental income over period</span><span class="res-num" id="totalRent">—</span></div>
+      <div class="res-row"><span class="res-label">Projected asset value</span><span class="res-num" id="assetVal">—</span></div>
+      <div class="res-row"><span class="res-label">Total projected return</span><span class="res-num" id="totalRet">—</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="steps">
+  <p class="section-eyebrow">How It Works</p>
+  <h2 class="section-title">From enquiry to ownership</h2>
+  <div class="steps-grid">
+    <div class="step"><div class="step-num">01</div><h4>Discover</h4><p>Browse verified listings or tell us your goals and budget — we shortlist the best-fit opportunities.</p></div>
+    <div class="step"><div class="step-num">02</div><h4>Due Diligence</h4><p>We hand over titles, surveys and yield data so every decision is made with complete clarity.</p></div>
+    <div class="step"><div class="step-num">03</div><h4>Acquire</h4><p>Our team manages documentation, payment plans and (where needed) FX transfer end to end.</p></div>
+    <div class="step"><div class="step-num">04</div><h4>Earn</h4><p>Enrol in the Pedal program and we fully manage your short-let, paying out monthly income.</p></div>
+  </div>
+</section>
+
+<div id="cta-banner">
+  <h2>Ready to put your capital<br>to work?</h2>
+  <a href="contact.html" class="cta-dark">Speak to an Advisor</a>
+</div>
+
+<div id="footer-mount"></div>
+<div id="modal-mount"></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/app.js"></script>
+<script>
+document.getElementById('investCards').innerHTML = INVEST_CARDS.map(c => `
+  <div class="invest-card"><div class="invest-icon">${c.icon}</div>
+    <div><div class="invest-card-title">${c.title}</div><div class="invest-card-desc">${c.desc}</div></div></div>`).join('');
+document.getElementById('returnChart').innerHTML = RETURN_DATA.map(r => `
+  <div class="bar-row"><span class="bar-yr">${r.yr}</span>
+    <div class="bar-wrap"><div class="bar-fill" style="width:${r.val*5}%"></div></div>
+    <span class="bar-val">${r.val}%</span></div>`).join('');
+
+// Calculator
+const fmt = n => '₦' + (n >= 1000 ? (n/1000).toFixed(2) + 'B' : Math.round(n) + 'M');
+function calc() {
+  const amt = +document.getElementById('amt').value;      // in millions
+  const yld = +document.getElementById('yld').value;       // %
+  const yrs = +document.getElementById('yrs').value;
+  document.getElementById('amtLbl').textContent = fmt(amt);
+  document.getElementById('yldLbl').textContent = yld + '%';
+  document.getElementById('yrLbl').textContent = yrs + ' yr' + (yrs>1?'s':'');
+  const annual = amt * (yld/100);
+  const totalRent = annual * yrs;
+  const assetVal = amt * Math.pow(1.07, yrs);              // ~7% appreciation
+  const totalRet = totalRent + (assetVal - amt);
+  document.getElementById('annual').textContent = fmt(annual);
+  document.getElementById('totalRent').textContent = fmt(totalRent);
+  document.getElementById('assetVal').textContent = fmt(assetVal);
+  document.getElementById('totalRet').textContent = fmt(totalRet);
+}
+['amt','yld','yrs'].forEach(id => document.getElementById(id).addEventListener('input', calc));
+calc();
+
+mountPartials();
+initChrome();
+</script>
+</body>
+</html>

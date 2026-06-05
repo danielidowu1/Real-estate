@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Portal | Dimora View Properties</title>
+<meta name="description" content="Dimora View Properties admin portal — manage the full property catalogue: add, edit and remove listings, track portfolio value and investment-grade assets in real time." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+.page-hero::before { background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1800&auto=format&fit=crop&q=80'); }
+
+/* ── DASHBOARD SHELL ── */
+.dash { padding: 46px 60px 100px; }
+.dash-note {
+  display: flex; align-items: center; gap: 10px; font-size: .8rem; color: var(--muted);
+  background: var(--ivory); border: 1px solid var(--border); border-radius: 3px;
+  padding: 12px 18px; margin-bottom: 34px; line-height: 1.5;
+}
+.dash-note strong { color: var(--charcoal); font-weight: 500; }
+
+/* ── STAT CARDS ── */
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 44px; }
+.stat-card {
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 4px;
+  padding: 26px 24px; position: relative; overflow: hidden;
+  transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s;
+}
+.stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.stat-card::after {
+  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--gold);
+}
+.stat-icon { font-size: 1.5rem; margin-bottom: 12px; display: block; }
+.stat-value { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; line-height: 1; color: var(--charcoal); margin-bottom: 6px; }
+.stat-label { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* ── TOOLBAR ── */
+.dash-toolbar {
+  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--border);
+}
+.dash-toolbar h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; color: var(--charcoal); margin-right: auto; font-weight: 600; }
+.dash-toolbar input, .dash-toolbar select {
+  padding: 11px 14px; border: 1px solid var(--border); border-radius: 2px;
+  font-family: 'DM Sans', sans-serif; font-size: .82rem; background: white; color: var(--charcoal); outline: none;
+}
+.dash-toolbar input { min-width: 200px; }
+.dash-toolbar input:focus, .dash-toolbar select:focus { border-color: var(--gold); }
+
+/* ── TABLE ── */
+.table-wrap { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; background: var(--card-bg); }
+table.admin-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+.admin-table thead th {
+  text-align: left; padding: 15px 18px; background: var(--ivory);
+  font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 500;
+  border-bottom: 1px solid var(--border); white-space: nowrap;
+}
+.admin-table tbody td { padding: 14px 18px; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--charcoal); }
+.admin-table tbody tr:last-child td { border-bottom: none; }
+.admin-table tbody tr { transition: background .2s; }
+.admin-table tbody tr:hover { background: var(--ivory); }
+.cell-prop { display: flex; align-items: center; gap: 13px; min-width: 230px; }
+.cell-prop img { width: 56px; height: 44px; object-fit: cover; border-radius: 3px; flex-shrink: 0; }
+.cell-prop .cp-name { font-weight: 500; color: var(--charcoal); margin-bottom: 2px; }
+.cell-prop .cp-loc { font-size: .76rem; color: var(--muted); }
+.cell-price { font-weight: 500; white-space: nowrap; }
+.pill {
+  display: inline-block; padding: 4px 11px; border-radius: 999px; font-size: .68rem;
+  letter-spacing: .05em; text-transform: uppercase; background: var(--sand); color: var(--deep); white-space: nowrap;
+}
+.pill.invest { background: var(--gold); color: var(--deep); }
+.cell-actions { display: flex; gap: 8px; justify-content: flex-end; white-space: nowrap; }
+.icon-btn {
+  border: 1px solid var(--border); background: white; border-radius: 3px; cursor: pointer;
+  padding: 7px 13px; font-family: 'DM Sans', sans-serif; font-size: .74rem; color: var(--charcoal); transition: all .2s;
+}
+.icon-btn:hover { border-color: var(--gold); color: var(--gold); }
+.icon-btn.danger:hover { border-color: #b3402f; color: #b3402f; }
+.empty-row td { text-align: center; padding: 60px 20px; color: var(--muted); }
+
+/* ── EDITOR MODAL (own, larger than booking modal) ── */
+.editor-backdrop {
+  position: fixed; inset: 0; background: rgba(13,13,11,.55); backdrop-filter: blur(3px);
+  display: flex; align-items: flex-start; justify-content: center; padding: 40px 20px; z-index: 3000;
+  opacity: 0; pointer-events: none; transition: opacity .3s; overflow-y: auto;
+}
+.editor-backdrop.open { opacity: 1; pointer-events: all; }
+.editor {
+  background: var(--warm-white); border-radius: 6px; width: 100%; max-width: 680px;
+  padding: 40px 42px; position: relative; box-shadow: 0 30px 80px rgba(13,13,11,.4);
+  transform: translateY(18px); transition: transform .3s cubic-bezier(.22,1,.36,1);
+}
+.editor-backdrop.open .editor { transform: translateY(0); }
+.editor-close { position: absolute; top: 18px; right: 20px; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--muted); }
+.editor h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 6px; color: var(--charcoal); }
+.editor .sub { font-size: .85rem; color: var(--muted); margin-bottom: 28px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.check-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.check-row input { width: auto; }
+.check-row label { text-transform: none; letter-spacing: 0; font-size: .88rem; color: var(--charcoal); margin: 0; }
+.editor-actions { display: flex; gap: 12px; margin-top: 8px; }
+.field-err { color: #b3402f; font-size: .78rem; margin-bottom: 14px; min-height: 1em; }
+
+@media (max-width: 900px) {
+  .dash { padding: 32px 22px 70px; }
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .dash-toolbar h2 { flex: 1 1 100%; margin-right: 0; }
+  .dash-toolbar input { flex: 1; min-width: 0; }
+  /* turn the table into stacked cards on mobile */
+  .admin-table thead { display: none; }
+  .admin-table, .admin-table tbody, .admin-table tr, .admin-table td { display: block; width: 100%; }
+  .admin-table tbody tr { padding: 8px 4px; border-bottom: 1px solid var(--border); }
+  .admin-table tbody td { border: none; padding: 6px 16px; }
+  .cell-actions { justify-content: flex-start; padding-top: 10px !important; }
+  .editor { padding: 32px 24px; }
+  .form-row, .form-row-3 { grid-template-columns: 1fr; gap: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav" class="solid">
+  <a href="index.html" class="nav-logo">Dimora View</a>
+  <ul class="nav-links">
+    <li><a href="locations.html">Locations</a></li>
+    <li><a href="listings.html">Properties</a></li>
+    <li><a href="investment.html">Investment</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="admin.html" class="active">Admin</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Viewing</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="locations.html">Locations</a><a href="listings.html">Properties</a>
+  <a href="investment.html">Investment</a><a href="about.html">About</a>
+  <a href="admin.html">Admin</a><a href="contact.html">Book Viewing</a>
+</div>
+
+<header class="page-hero" style="padding-top:120px;">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Admin Portal</div>
+    <p class="hero-eyebrow">Property Management</p>
+    <h1>The <em>admin</em> dashboard</h1>
+    <p>Add, edit and retire listings across the entire catalogue. Every change updates the live site instantly — listings, locations, investment pages and search all read from here.</p>
+  </div>
+</header>
+
+<section class="dash">
+  <div class="dash-note">
+    🔒 <span><strong>Demo portal.</strong> Changes are saved to this browser only (local storage) so you can explore freely — they sync to every page on this device. Use <strong>Reset to defaults</strong> any time to restore the original catalogue.</span>
+  </div>
+
+  <!-- LIVE STATS -->
+  <div class="stat-grid" id="statGrid"></div>
+
+  <!-- TOOLBAR -->
+  <div class="dash-toolbar">
+    <h2>Manage Listings</h2>
+    <input id="searchBox" type="text" placeholder="Search name, location, type…" oninput="render()" />
+    <select id="typeFilter" onchange="render()"><option value="">All types</option></select>
+    <button class="btn-outline" style="padding:11px 20px;font-size:.74rem;" onclick="resetAll()">Reset to defaults</button>
+    <button class="btn-primary" style="padding:11px 22px;font-size:.78rem;" onclick="openEditor()">+ Add Listing</button>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-wrap">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Property</th><th>Type</th><th>City</th><th>Price</th>
+          <th>Beds</th><th>Status</th><th style="text-align:right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ADD / EDIT EDITOR -->
+<div class="editor-backdrop" id="editorBackdrop" onclick="if(event.target===this)closeEditor()">
+  <div class="editor">
+    <button class="editor-close" onclick="closeEditor()">✕</button>
+    <h3 id="editorTitle">Add a new listing</h3>
+    <p class="sub" id="editorSub">Fill in the details below. The listing appears across the site immediately after saving.</p>
+
+    <div class="form-group">
+      <label>Property name</label>
+      <input id="fName" type="text" placeholder="e.g. Horizon Court Residences" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Location (full)</label>
+        <input id="fLoc" type="text" placeholder="e.g. Victoria Island, Lagos" />
+      </div>
+      <div class="form-group">
+        <label>City</label>
+        <input id="fCity" type="text" placeholder="e.g. Lagos" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Type</label>
+        <select id="fType"></select>
+      </div>
+      <div class="form-group">
+        <label>Price (incl. currency)</label>
+        <input id="fPrice" type="text" placeholder="e.g. ₦185M or $780K" />
+      </div>
+    </div>
+    <div class="form-row-3">
+      <div class="form-group"><label>Beds</label><input id="fBeds" type="number" min="0" placeholder="0" /></div>
+      <div class="form-group"><label>Baths</label><input id="fBaths" type="number" min="0" placeholder="0" /></div>
+      <div class="form-group"><label>Size (m²)</label><input id="fSqm" type="number" min="0" placeholder="0" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tag / badge</label>
+        <input id="fTag" type="text" placeholder="e.g. For Sale, Investment, Luxury" />
+      </div>
+      <div class="form-group">
+        <label>Yield (optional)</label>
+        <input id="fYield" type="text" placeholder="e.g. 12.4% Annual Yield" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Image URL</label>
+      <input id="fImg" type="text" placeholder="https://images.unsplash.com/…" />
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea id="fDesc" rows="3" placeholder="A short, compelling description of the property…"></textarea>
+    </div>
+    <div class="check-row">
+      <input id="fInvest" type="checkbox" />
+      <label for="fInvest">Investment-grade property (shows on Investment listings &amp; "Buy &amp; Invest" filters)</label>
+    </div>
+
+    <div class="field-err" id="formErr"></div>
+    <div class="editor-actions">
+      <button class="btn-primary" style="flex:1;text-align:center;" onclick="saveFromForm()">Save listing</button>
+      <button class="btn-ghost" style="flex:0 0 auto;" onclick="closeEditor()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="footer-mount"></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/app.js"></script>
+<script>
+/* ── populate type dropdowns from the shared PROPERTY_TYPES ── */
+const typeOpts = PROPERTY_TYPES.map(t => t.name);
+document.getElementById('typeFilter').innerHTML +=
+  typeOpts.map(t => `<option>${t}</option>`).join('');
+document.getElementById('fType').innerHTML =
+  typeOpts.map(t => `<option>${t}</option>`).join('');
+
+let editingId = null; // null => adding new
+
+/* ── LIVE STATS (recomputed from current data on every render) ── */
+function numericPrice(p) {
+  let v = parseFloat(String(p).replace(/[^0-9.]/g, '')) || 0;
+  if (String(p).includes('B')) v *= 1000;
+  if (String(p).includes('$')) v *= 1500;
+  if (String(p).includes('£')) v *= 1900;
+  return v; // rough ₦-millions-equivalent for a portfolio gauge
+}
+function fmtPortfolio(millions) {
+  if (millions >= 1000) return '₦' + (millions / 1000).toFixed(1) + 'B';
+  return '₦' + Math.round(millions) + 'M';
+}
+function renderStats(list) {
+  const total = list.length;
+  const invest = list.filter(l => l.invest).length;
+  const cities = new Set(list.map(l => l.city)).size;
+  const portfolio = list.reduce((s, l) => s + numericPrice(l.price), 0);
+  const cards = [
+    { icon: '🏠', value: total, label: 'Total Listings' },
+    { icon: '📊', value: invest, label: 'Investment-Grade' },
+    { icon: '🌍', value: cities, label: 'Cities Covered' },
+    { icon: '💎', value: fmtPortfolio(portfolio), label: 'Portfolio Value (est.)' },
+  ];
+  document.getElementById('statGrid').innerHTML = cards.map(c => `
+    <div class="stat-card fade-up in">
+      <span class="stat-icon">${c.icon}</span>
+      <div class="stat-value">${c.value}</div>
+      <div class="stat-label">${c.label}</div>
+    </div>`).join('');
+}
+
+/* ── RENDER TABLE (search + filter applied) ── */
+function render() {
+  const list = getListings();
+  renderStats(list);
+
+  const kw = document.getElementById('searchBox').value.toLowerCase().trim();
+  const tf = document.getElementById('typeFilter').value;
+  const filtered = list.filter(l =>
+    (!tf || l.type === tf) &&
+    (!kw || (l.name + ' ' + l.loc + ' ' + l.type + ' ' + l.city).toLowerCase().includes(kw))
+  );
+
+  const rows = document.getElementById('rows');
+  if (!filtered.length) {
+    rows.innerHTML = `<tr class="empty-row"><td colspan="7">No listings match your search. <a href="#" onclick="document.getElementById('searchBox').value='';document.getElementById('typeFilter').value='';render();return false;" style="color:var(--gold);">Clear filters</a></td></tr>`;
+    return;
+  }
+  rows.innerHTML = filtered.map(l => `
+    <tr>
+      <td>
+        <div class="cell-prop">
+          <img src="${l.img}" alt="${escapeHtml(l.name)}" loading="lazy" onerror="this.style.opacity=.25" />
+          <div>
+            <div class="cp-name">${escapeHtml(l.name)}</div>
+            <div class="cp-loc">📍 ${escapeHtml(l.loc)}</div>
+          </div>
+        </div>
+      </td>
+      <td>${escapeHtml(l.type)}</td>
+      <td>${escapeHtml(l.city)}</td>
+      <td class="cell-price">${escapeHtml(l.price)}</td>
+      <td>${l.beds ? l.beds : '—'}</td>
+      <td><span class="pill ${l.invest ? 'invest' : ''}">${l.invest ? 'Invest' : 'For Sale'}</span></td>
+      <td>
+        <div class="cell-actions">
+          <a class="icon-btn" href="property.html?id=${l.id}" target="_blank" rel="noopener">View</a>
+          <button class="icon-btn" onclick="openEditor(${l.id})">Edit</button>
+          <button class="icon-btn danger" onclick="removeListing(${l.id})">Delete</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+/* ── EDITOR OPEN / CLOSE ── */
+function openEditor(id) {
+  editingId = (id === undefined) ? null : id;
+  const err = document.getElementById('formErr'); err.textContent = '';
+  const set = (k, v) => document.getElementById(k).value = (v == null ? '' : v);
+
+  if (editingId === null) {
+    document.getElementById('editorTitle').textContent = 'Add a new listing';
+    document.getElementById('editorSub').textContent = 'Fill in the details below. The listing appears across the site immediately after saving.';
+    ['fName','fLoc','fCity','fPrice','fBeds','fBaths','fSqm','fTag','fYield','fImg','fDesc'].forEach(k => set(k, ''));
+    document.getElementById('fType').value = typeOpts[0];
+    document.getElementById('fInvest').checked = false;
+  } else {
+    const l = getListingById(editingId);
+    if (!l) return;
+    document.getElementById('editorTitle').textContent = 'Edit listing';
+    document.getElementById('editorSub').textContent = 'Update any field below and save to push the change live.';
+    set('fName', l.name); set('fLoc', l.loc); set('fCity', l.city);
+    set('fPrice', l.price); set('fBeds', l.beds); set('fBaths', l.baths);
+    set('fSqm', l.sqm); set('fTag', l.tag); set('fYield', l.yield);
+    set('fImg', l.img); set('fDesc', l.desc);
+    document.getElementById('fType').value = l.type;
+    document.getElementById('fInvest').checked = !!l.invest;
+  }
+  const b = document.getElementById('editorBackdrop');
+  b.classList.add('open'); document.body.style.overflow = 'hidden';
+}
+function closeEditor() {
+  document.getElementById('editorBackdrop').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── SAVE (add or edit) ── */
+function saveFromForm() {
+  const val = id => document.getElementById(id).value.trim();
+  const name = val('fName'), loc = val('fLoc'), city = val('fCity'), price = val('fPrice');
+  const err = document.getElementById('formErr');
+
+  if (!name) { err.textContent = 'Please enter a property name.'; return; }
+  if (!loc)  { err.textContent = 'Please enter a location.'; return; }
+  if (!city) { err.textContent = 'Please enter a city.'; return; }
+  if (!price){ err.textContent = 'Please enter a price (e.g. ₦185M).'; return; }
+
+  const DEFAULT_IMG = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&auto=format&fit=crop&q=80';
+  const record = {
+    name, loc, city, price,
+    type: document.getElementById('fType').value,
+    beds: parseInt(val('fBeds'), 10) || 0,
+    baths: parseInt(val('fBaths'), 10) || 0,
+    sqm: parseInt(val('fSqm'), 10) || 0,
+    tag: val('fTag') || (document.getElementById('fInvest').checked ? 'Investment' : 'For Sale'),
+    yield: val('fYield') || null,
+    img: val('fImg') || DEFAULT_IMG,
+    desc: val('fDesc') || 'A premium Dimora View property. Contact our team for the full brochure and viewing arrangements.',
+    invest: document.getElementById('fInvest').checked,
+  };
+
+  const list = getListings();
+  if (editingId === null) {
+    const nextId = list.reduce((m, l) => Math.max(m, Number(l.id) || 0), 0) + 1;
+    record.id = nextId;
+    list.push(record);
+    saveListings(list);
+    showToast('✓ "' + name + '" added to the catalogue.');
+  } else {
+    const idx = list.findIndex(l => String(l.id) === String(editingId));
+    if (idx > -1) { record.id = list[idx].id; list[idx] = record; saveListings(list); }
+    showToast('✓ "' + name + '" updated.');
+  }
+  closeEditor();
+  render();
+}
+
+/* ── DELETE ── */
+function removeListing(id) {
+  const l = getListingById(id);
+  if (!l) return;
+  if (!confirm('Remove "' + l.name + '" from the catalogue? You can restore the full default set any time with "Reset to defaults".')) return;
+  const list = getListings().filter(x => String(x.id) !== String(id));
+  saveListings(list);
+  showToast('🗑 "' + l.name + '" removed.');
+  render();
+}
+
+/* ── RESET ── */
+function resetAll() {
+  if (!confirm('Restore the original default catalogue? Any listings you added or edited in this browser will be discarded.')) return;
+  resetListings();
+  showToast('↺ Catalogue restored to defaults.');
+  render();
+}
+
+/* init */
+render();
+mountPartials();
+initChrome();
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>All Listings | Dimora View Properties</title>
+<meta name="description" content="Browse the full collection of Dimora View Properties — apartments, villas, commercial spaces, land and high-yield investment listings across Lagos, Abuja, Dubai, London and Accra." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+.page-hero::before { background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1800&auto=format&fit=crop&q=80'); }
+.filters { background: var(--ivory); padding: 28px 60px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
+.filters select, .filters input {
+  padding: 12px 14px; border: 1px solid var(--border); border-radius: 2px;
+  font-family: 'DM Sans', sans-serif; font-size: .85rem; background: white; color: var(--charcoal); outline: none; min-width: 150px; flex: 1;
+}
+.filters select:focus, .filters input:focus { border-color: var(--gold); }
+.results-bar { padding: 28px 60px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+.results-count { font-size: .9rem; color: var(--muted); }
+.results-count strong { color: var(--charcoal); font-weight: 500; }
+#allListings { padding: 28px 60px 100px; }
+.empty { text-align: center; padding: 80px 20px; color: var(--muted); }
+.empty h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--charcoal); margin-bottom: 10px; }
+@media (max-width: 900px) {
+  .filters { padding: 20px 28px; }
+  .filters select, .filters input { min-width: 0; flex: 1 1 45%; }
+  .results-bar { padding: 22px 28px 0; }
+  #allListings { padding: 22px 28px 70px; }
+  /* full listings page keeps the grid, NOT the home carousel */
+  #allListings .listings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; overflow: visible; }
+  #allListings .listing-card { flex: none; }
+}
+@media (max-width: 600px) { #allListings .listings-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav id="mainNav" class="solid">
+  <a href="index.html" class="nav-logo">Dimora View</a>
+  <ul class="nav-links">
+    <li><a href="locations.html">Locations</a></li>
+    <li><a href="listings.html" class="active">Properties</a></li>
+    <li><a href="investment.html">Investment</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Viewing</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="locations.html">Locations</a><a href="listings.html">Properties</a>
+  <a href="investment.html">Investment</a><a href="about.html">About</a>
+  <a href="admin.html">Admin</a><a href="contact.html">Book Viewing</a>
+</div>
+
+<header class="page-hero" style="padding-top:120px;">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> &nbsp;/&nbsp; Listings</div>
+    <p class="hero-eyebrow">The Full Collection</p>
+    <h1>Explore every <em>listing</em></h1>
+    <p>Filter by type, location and budget to find the property that fits your goals — from city apartments to waterfront estates and investment-grade assets.</p>
+  </div>
+</header>
+
+<div class="filters">
+  <select id="f-type"><option value="">All Types</option></select>
+  <select id="f-loc"><option value="">All Locations</option></select>
+  <select id="f-invest"><option value="">Buy & Invest</option><option value="invest">Investment Only</option></select>
+  <select id="f-sort">
+    <option value="">Sort: Featured</option>
+    <option value="low">Price: Low to High</option>
+    <option value="high">Price: High to Low</option>
+  </select>
+  <input id="f-kw" type="text" placeholder="Search by keyword…" />
+  <button class="btn-primary" onclick="applyFilters()" style="padding:12px 28px;font-size:.8rem;">Apply</button>
+</div>
+
+<div class="results-bar">
+  <div class="results-count" id="count"></div>
+  <button class="btn-outline" style="padding:9px 22px;font-size:.74rem;" onclick="clearFilters()">Reset Filters</button>
+</div>
+
+<section id="allListings"><div class="listings-grid" id="grid"></div></section>
+
+<div id="footer-mount"></div>
+<div id="modal-mount"></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/app.js"></script>
+<script>
+const all = getListings();
+// populate filter selects
+const types = [...new Set(all.map(l => l.type))];
+const locs = [...new Set(all.map(l => l.city))];
+document.getElementById('f-type').innerHTML += types.map(t => `<option>${t}</option>`).join('');
+document.getElementById('f-loc').innerHTML += locs.map(l => `<option>${l}</option>`).join('');
+
+// prefill from URL
+const pType = qs('type'), pLoc = qs('loc'), pKw = qs('kw');
+if (pType) {
+  // match loosely (e.g. "Apartment" vs "Apartments")
+  const m = types.find(t => t.toLowerCase().includes(pType.toLowerCase()) || pType.toLowerCase().includes(t.toLowerCase()));
+  if (m) document.getElementById('f-type').value = m;
+}
+if (pLoc) {
+  const m = locs.find(l => l.toLowerCase().includes(pLoc.toLowerCase()));
+  if (m) document.getElementById('f-loc').value = m;
+}
+if (pKw) document.getElementById('f-kw').value = pKw;
+
+function numericPrice(p) {
+  let v = parseFloat(p.replace(/[^0-9.]/g, '')) || 0;
+  if (p.includes('B')) v *= 1000;        // ₦ billions → millions scale
+  if (p.includes('$')) v *= 1500;        // rough FX to compare ordering
+  if (p.includes('£')) v *= 1900;
+  return v;
+}
+
+function applyFilters() {
+  const t = document.getElementById('f-type').value;
+  const l = document.getElementById('f-loc').value;
+  const inv = document.getElementById('f-invest').value;
+  const sort = document.getElementById('f-sort').value;
+  const kw = document.getElementById('f-kw').value.toLowerCase().trim();
+
+  let out = all.filter(x =>
+    (!t || x.type === t) &&
+    (!l || x.city === l) &&
+    (!inv || x.invest) &&
+    (!kw || (x.name + ' ' + x.loc + ' ' + x.type).toLowerCase().includes(kw))
+  );
+  if (sort === 'low') out.sort((a, b) => numericPrice(a.price) - numericPrice(b.price));
+  if (sort === 'high') out.sort((a, b) => numericPrice(b.price) - numericPrice(a.price));
+
+  const grid = document.getElementById('grid');
+  if (out.length) grid.innerHTML = out.map(listingCardHTML).join('');
+  else grid.innerHTML = `<div class="empty" style="grid-column:1/-1;"><h3>No properties match</h3><p>Try widening your filters or resetting.</p></div>`;
+  document.getElementById('count').innerHTML = `<strong>${out.length}</strong> ${out.length === 1 ? 'property' : 'properties'} found`;
+}
+function clearFilters() {
+  ['f-type','f-loc','f-invest','f-sort'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-kw').value = '';
+  applyFilters();
+}
+
+applyFilters();
+mountPartials();
+initChrome();
+</script>
+</body>
+</html>

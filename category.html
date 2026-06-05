@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title id="ttl">Category | Dimora View Properties</title>
+<meta name="description" content="Browse Dimora View Properties by category — apartments, villas, commercial, land, waterfront, off-plan and more." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+.page-hero::before { background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1800&auto=format&fit=crop&q=80'); }
+.cat-nav { background: var(--ivory); padding: 22px 60px; display: flex; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+.cat-chip { padding: 9px 18px; border: 1px solid var(--border); border-radius: 40px; font-size: .8rem; color: var(--muted); text-decoration: none; transition: all .25s; white-space: nowrap; }
+.cat-chip:hover { border-color: var(--gold); color: var(--gold); }
+.cat-chip.active { background: var(--gold); border-color: var(--gold); color: var(--deep); font-weight: 500; }
+#catGrid { padding: 60px; }
+.empty { text-align: center; padding: 80px 20px; color: var(--muted); grid-column: 1/-1; }
+.empty h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--charcoal); margin-bottom: 10px; }
+@media (max-width: 900px) {
+  .cat-nav { padding: 18px 28px; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
+  .cat-nav::-webkit-scrollbar { display: none; }
+  #catGrid { padding: 40px 28px; }
+  #catGrid .listings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; overflow: visible; }
+  #catGrid .listing-card { flex: none; }
+}
+@media (max-width: 600px) { #catGrid .listings-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav id="mainNav" class="solid">
+  <a href="index.html" class="nav-logo">Dimora View</a>
+  <ul class="nav-links">
+    <li><a href="locations.html">Locations</a></li>
+    <li><a href="listings.html" class="active">Properties</a></li>
+    <li><a href="investment.html">Investment</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Viewing</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="locations.html">Locations</a><a href="listings.html">Properties</a>
+  <a href="investment.html">Investment</a><a href="about.html">About</a>
+  <a href="admin.html">Admin</a><a href="contact.html">Book Viewing</a>
+</div>
+
+<header class="page-hero" style="padding-top:120px;">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> / <a href="listings.html">Properties</a> / <span id="bc">Category</span></div>
+    <p class="hero-eyebrow">Property Category</p>
+    <h1 id="catTitle">Category</h1>
+    <p id="catDesc"></p>
+  </div>
+</header>
+
+<nav class="cat-nav" id="catNav" aria-label="Categories"></nav>
+
+<section id="catGrid"><div class="listings-grid" id="grid"></div></section>
+
+<div id="footer-mount"></div>
+<div id="modal-mount"></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/app.js"></script>
+<script>
+const type = qs('type') || PROPERTY_TYPES[0].name;
+const meta = PROPERTY_TYPES.find(t => t.name.toLowerCase() === type.toLowerCase()) || { name: type, desc: 'Browse this category.', icon: '🏠' };
+
+document.getElementById('ttl').textContent = meta.name + ' | Dimora View Properties';
+document.getElementById('bc').textContent = meta.name;
+document.getElementById('catTitle').innerHTML = meta.icon + ' ' + meta.name;
+document.getElementById('catDesc').textContent = meta.desc;
+
+document.getElementById('catNav').innerHTML = PROPERTY_TYPES.map(t =>
+  `<a class="cat-chip ${t.name.toLowerCase()===meta.name.toLowerCase()?'active':''}" href="category.html?type=${encodeURIComponent(t.name)}">${t.icon} ${t.name}</a>`).join('');
+
+const items = getListings().filter(l => l.type.toLowerCase() === meta.name.toLowerCase());
+const grid = document.getElementById('grid');
+if (items.length) {
+  grid.innerHTML = items.map(listingCardHTML).join('');
+} else {
+  grid.innerHTML = `<div class="empty"><h3>No ${meta.name} listed right now</h3>
+    <p>New ${meta.name.toLowerCase()} are added regularly — check back soon or browse other categories above.</p>
+    <div style="margin-top:24px;"><a class="btn-primary" href="listings.html">View all listings</a></div></div>`;
+}
+
+mountPartials();
+initChrome();
+</script>
+</body>
+</html>

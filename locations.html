@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Locations | Dimora View Properties</title>
+<meta name="description" content="Explore every Dimora View Properties destination — Lagos, Abuja, Port Harcourt, Dubai, London, Accra and Nairobi." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+.page-hero::before { background-image: url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1800&auto=format&fit=crop&q=80'); }
+.loc-grid { padding: 90px 60px; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 24px; }
+.loc-grid .loc-card { width: 100%; min-width: 0; height: 360px; }
+@media (max-width: 900px) {
+  .loc-grid { padding: 50px 28px; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .loc-grid .loc-card { height: 240px; flex: none; }
+  .loc-grid .loc-name { font-size: 1.3rem; }
+}
+@media (max-width: 600px) { .loc-grid { grid-template-columns: 1fr; } .loc-grid .loc-card { height: 280px; } }
+</style>
+</head>
+<body>
+
+<nav id="mainNav" class="solid">
+  <a href="index.html" class="nav-logo">Dimora View</a>
+  <ul class="nav-links">
+    <li><a href="locations.html" class="active">Locations</a></li>
+    <li><a href="listings.html">Properties</a></li>
+    <li><a href="investment.html">Investment</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Viewing</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="locations.html">Locations</a><a href="listings.html">Properties</a>
+  <a href="investment.html">Investment</a><a href="about.html">About</a>
+  <a href="admin.html">Admin</a><a href="contact.html">Book Viewing</a>
+</div>
+
+<header class="page-hero" style="padding-top:120px;">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> / Locations</div>
+    <p class="hero-eyebrow">Browse by Destination</p>
+    <h1>Where would you<br>like to <em>invest?</em></h1>
+    <p>From Lagos waterfronts to Dubai marinas and London riversides — explore our portfolio across the world's most dynamic property markets.</p>
+  </div>
+</header>
+
+<section class="loc-grid" id="locGrid"></section>
+
+<div id="footer-mount"></div>
+<div id="modal-mount"></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/app.js"></script>
+<script>
+document.getElementById('locGrid').innerHTML = LOCATIONS.map(locCardHTML).join('');
+mountPartials();
+initChrome();
+</script>
+</body>
+</html>

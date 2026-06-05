@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About Us | Dimora View Properties</title>
+<meta name="description" content="Dimora View Properties is a premium real estate agency connecting visionary buyers with exceptional homes and investment-grade assets across Nigeria and beyond." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+.page-hero::before { background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1800&auto=format&fit=crop&q=80'); }
+.story { padding: 100px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; }
+.story-img { border-radius: 6px; overflow: hidden; height: 480px; box-shadow: var(--shadow); }
+.story-img img { width: 100%; height: 100%; object-fit: cover; }
+.story-text h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3rem); font-weight: 300; line-height: 1.15; margin-bottom: 20px; }
+.story-text p { font-size: 1rem; line-height: 1.85; color: var(--muted); margin-bottom: 18px; }
+.stats-band { background: var(--charcoal); color: var(--warm-white); padding: 70px 60px; display: grid; grid-template-columns: repeat(4,1fr); gap: 30px; text-align: center; }
+.stat-big { font-family: 'Cormorant Garamond', serif; font-size: 3.2rem; font-weight: 300; color: var(--gold-light); line-height: 1; }
+.stat-cap { font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; color: rgba(247,243,237,.55); margin-top: 8px; }
+.values { padding: 100px 60px; background: var(--ivory); }
+.values-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; margin-top: 52px; }
+.value-card { background: white; border-radius: 4px; padding: 36px 30px; border: 1px solid var(--border); }
+.value-card .ic { font-size: 2rem; margin-bottom: 16px; }
+.value-card h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 10px; }
+.value-card p { font-size: .88rem; color: var(--muted); line-height: 1.7; }
+.team { padding: 100px 60px; }
+.team-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 24px; margin-top: 52px; }
+.member { text-align: center; }
+.member-photo { width: 100%; aspect-ratio: 1; border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
+.member-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.member:hover .member-photo img { transform: scale(1.06); }
+.member h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; }
+.member span { font-size: .8rem; color: var(--gold); letter-spacing: .06em; }
+@media (max-width: 900px) {
+  .story { padding: 60px 28px; grid-template-columns: 1fr; gap: 32px; }
+  .story-img { height: 300px; order: -1; }
+  .stats-band { padding: 50px 28px; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .values { padding: 60px 28px; } .values-grid { grid-template-columns: 1fr; }
+  .team { padding: 60px 28px; } .team-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav" class="solid">
+  <a href="index.html" class="nav-logo">Dimora View</a>
+  <ul class="nav-links">
+    <li><a href="locations.html">Locations</a></li>
+    <li><a href="listings.html">Properties</a></li>
+    <li><a href="investment.html">Investment</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Viewing</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="locations.html">Locations</a><a href="listings.html">Properties</a>
+  <a href="investment.html">Investment</a><a href="about.html">About</a>
+  <a href="admin.html">Admin</a><a href="contact.html">Book Viewing</a>
+</div>
+
+<header class="page-hero" style="padding-top:120px;">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> / About</div>
+    <p class="hero-eyebrow">Who We Are</p>
+    <h1>Redefining real estate,<br>one <em>view</em> at a time</h1>
+    <p>Dimora View Properties is a premium agency built on transparency, verified documentation and a genuine commitment to growing our clients' wealth.</p>
+  </div>
+</header>
+
+<section class="story">
+  <div class="story-text">
+    <p class="section-eyebrow">Our Story</p>
+    <h2>Founded on trust, built for the long term</h2>
+    <p>Dimora — Italian for "dwelling" — began with a simple frustration: buying property in our markets was too often opaque, stressful and uncertain. We set out to change that.</p>
+    <p>Today we connect discerning buyers and investors with exceptional homes and high-yield assets across Lagos, Abuja, Port Harcourt, Dubai, London and Accra. Every listing is vetted, every title verified, every projection grounded in real data.</p>
+    <p>Our Pedal program takes it further — fully managing short-let properties so owners earn dependable monthly income without lifting a finger.</p>
+    <a class="btn-primary" href="contact.html" style="margin-top:8px;">Work With Us</a>
+  </div>
+  <div class="story-img"><img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1000&auto=format&fit=crop&q=80" alt="Dimora View team and properties" /></div>
+</section>
+
+<section class="stats-band">
+  <div><div class="stat-big">1,200+</div><div class="stat-cap">Properties Listed</div></div>
+  <div><div class="stat-big">₦2.4B+</div><div class="stat-cap">Client Income / Year</div></div>
+  <div><div class="stat-big">6</div><div class="stat-cap">Global Markets</div></div>
+  <div><div class="stat-big">98%</div><div class="stat-cap">Client Satisfaction</div></div>
+</section>
+
+<section class="values">
+  <p class="section-eyebrow">What We Stand For</p>
+  <h2 class="section-title">Our values</h2>
+  <div class="values-grid">
+    <div class="value-card"><div class="ic">🔍</div><h4>Radical Transparency</h4><p>Verified titles, clear pricing and honest yield data on every listing. No surprises, ever.</p></div>
+    <div class="value-card"><div class="ic">🤝</div><h4>Client First</h4><p>We measure success by your returns and your experience — not by closing the next sale.</p></div>
+    <div class="value-card"><div class="ic">📈</div><h4>Real Performance</h4><p>Data-backed projections and a track record of properties that genuinely outperform the market.</p></div>
+  </div>
+</section>
+
+<section class="team" id="team">
+  <p class="section-eyebrow">The People</p>
+  <h2 class="section-title">Meet the team</h2>
+  <div class="team-grid" id="teamGrid"></div>
+</section>
+
+<div id="cta-banner">
+  <h2>Let's find the property<br>that fits your future.</h2>
+  <a href="contact.html" class="cta-dark">Get in Touch</a>
+</div>
+
+<div id="footer-mount"></div>
+<div id="modal-mount"></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/app.js"></script>
+<script>
+const team = [
+  { name: 'Adaeze Okonkwo', role: 'Founder & CEO', img: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=500&auto=format&fit=crop&q=80' },
+  { name: 'Daniel Mensah', role: 'Head of Investments', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=80' },
+  { name: 'Fatima Bello', role: 'Director, Sales', img: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=500&auto=format&fit=crop&q=80' },
+  { name: 'James Carter', role: 'Head of Global Markets', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=500&auto=format&fit=crop&q=80' },
+];
+document.getElementById('teamGrid').innerHTML = team.map(m => `
+  <div class="member"><div class="member-photo"><img src="${m.img}" alt="${m.name}" loading="lazy" /></div>
+    <h4>${m.name}</h4><span>${m.role}</span></div>`).join('');
+mountPartials();
+initChrome();
+</script>
+</body>
+</html>

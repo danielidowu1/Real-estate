@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact | Dimora View Properties</title>
+<meta name="description" content="Get in touch with Dimora View Properties — book a viewing, request investment advice, or visit our Lagos and Abuja offices." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+.page-hero::before { background-image: url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1800&auto=format&fit=crop&q=80'); }
+.contact-wrap { padding: 100px 60px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 70px; align-items: start; }
+.contact-info h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,2.8rem); font-weight: 300; margin-bottom: 18px; }
+.contact-info > p { color: var(--muted); line-height: 1.8; margin-bottom: 36px; max-width: 420px; }
+.info-item { display: flex; gap: 16px; margin-bottom: 26px; align-items: flex-start; }
+.info-ic { width: 46px; height: 46px; border-radius: 50%; background: rgba(201,168,76,.12); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+.info-item h4 { font-size: .92rem; font-weight: 500; margin-bottom: 4px; }
+.info-item p { font-size: .86rem; color: var(--muted); line-height: 1.6; }
+.contact-form { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 40px; box-shadow: var(--shadow); }
+.contact-form h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 400; margin-bottom: 22px; }
+.offices { padding: 0 60px 100px; }
+.offices h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 400; margin-bottom: 28px; }
+.office-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.office { background: var(--ivory); border-radius: 6px; padding: 32px; border: 1px solid var(--border); }
+.office h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; margin-bottom: 8px; }
+.office p { font-size: .88rem; color: var(--muted); line-height: 1.7; }
+@media (max-width: 900px) {
+  .contact-wrap { padding: 60px 28px; grid-template-columns: 1fr; gap: 40px; }
+  .contact-form { padding: 28px; }
+  .offices { padding: 0 28px 70px; } .office-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav id="mainNav" class="solid">
+  <a href="index.html" class="nav-logo">Dimora View</a>
+  <ul class="nav-links">
+    <li><a href="locations.html">Locations</a></li>
+    <li><a href="listings.html">Properties</a></li>
+    <li><a href="investment.html">Investment</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+    <li><a href="contact.html" class="nav-cta active">Book Viewing</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="locations.html">Locations</a><a href="listings.html">Properties</a>
+  <a href="investment.html">Investment</a><a href="about.html">About</a>
+  <a href="admin.html">Admin</a><a href="contact.html">Book Viewing</a>
+</div>
+
+<header class="page-hero" style="padding-top:120px;">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a> / Contact</div>
+    <p class="hero-eyebrow">Let's Talk</p>
+    <h1>Book a viewing or<br>get <em>expert</em> advice</h1>
+    <p>Tell us what you're looking for and one of our advisors will be in touch within 24 hours.</p>
+  </div>
+</header>
+
+<section class="contact-wrap">
+  <div class="contact-info">
+    <h2>We'd love to hear from you</h2>
+    <p>Whether you're buying your first home, expanding a portfolio, or exploring the Pedal rental program — we're here to help.</p>
+    <div class="info-item"><div class="info-ic">📞</div><div><h4>Call us</h4><p>+234 800 000 0000<br>Mon–Sat, 9am – 6pm</p></div></div>
+    <div class="info-item"><div class="info-ic">✉️</div><div><h4>Email</h4><p>hello@dimoraview.com<br>invest@dimoraview.com</p></div></div>
+    <div class="info-item"><div class="info-ic">💬</div><div><h4>WhatsApp</h4><p>Chat with an advisor instantly during business hours.</p></div></div>
+  </div>
+
+  <div class="contact-form">
+    <h3 id="formTitle">Send us a message</h3>
+    <div class="form-group"><label>Full Name</label><input type="text" id="c-name" placeholder="Your name" /></div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input type="email" id="c-email" placeholder="you@email.com" /></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="c-phone" placeholder="+234 …" /></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Interest</label>
+        <select id="c-interest"><option>Buying a home</option><option>Investing / Rental</option><option>Commercial</option><option>Land</option><option>General enquiry</option></select></div>
+      <div class="form-group"><label>Preferred Location</label>
+        <select id="c-loc"><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Dubai</option><option>London</option><option>Accra</option></select></div>
+    </div>
+    <div class="form-group"><label>Message</label><textarea id="c-msg" rows="4" placeholder="Tell us what you're looking for…"></textarea></div>
+    <button class="btn-primary" style="width:100%;text-align:center;" onclick="sendMsg()">Submit Request</button>
+  </div>
+</section>
+
+<section class="offices">
+  <h3>Visit an office</h3>
+  <div class="office-grid">
+    <div class="office"><h4>Lagos HQ</h4><p>Plot 12, Admiralty Way, Lekki Phase 1, Lagos, Nigeria.<br>Mon–Sat · 9am – 6pm</p></div>
+    <div class="office"><h4>Abuja Office</h4><p>Suite 4, Aminu Kano Crescent, Wuse 2, Abuja, Nigeria.<br>Mon–Fri · 9am – 5pm</p></div>
+  </div>
+</section>
+
+<div id="footer-mount"></div>
+<div id="modal-mount"></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/app.js"></script>
+<script>
+const prop = qs('property');
+if (prop) {
+  document.getElementById('formTitle').textContent = 'Book a viewing: ' + prop;
+  document.getElementById('c-msg').value = `I'd like to book a viewing for "${prop}".`;
+  document.getElementById('c-interest').value = 'Buying a home';
+}
+function sendMsg() {
+  const name = document.getElementById('c-name').value.trim();
+  if (!name) { showToast('Please add your name so we can reach you.'); return; }
+  showToast('✓ Thanks ' + name.split(' ')[0] + '! An advisor will contact you within 24 hours.');
+  ['c-name','c-email','c-phone','c-msg'].forEach(id => document.getElementById(id).value = '');
+}
+mountPartials();
+initChrome();
+</script>
+</body>
+</html>

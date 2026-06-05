@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title id="ttl">Property | Dimora View Properties</title>
+<meta name="description" content="View full property details, photos, specifications and investment yield on Dimora View Properties." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+.detail-wrap { padding: 120px 60px 90px; }
+.detail-top { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start; }
+.gallery-main { width: 100%; height: 460px; border-radius: 6px; overflow: hidden; position: relative; }
+.gallery-main img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-tag { position: absolute; top: 18px; left: 18px; background: var(--gold); color: var(--deep); font-size: .72rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; }
+.thumbs { display: flex; gap: 12px; margin-top: 12px; }
+.thumbs img { width: 90px; height: 64px; object-fit: cover; border-radius: 3px; cursor: pointer; opacity: .6; transition: opacity .3s; border: 1px solid var(--border); }
+.thumbs img:hover, .thumbs img.active { opacity: 1; }
+.detail-side { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 32px; box-shadow: var(--shadow); position: sticky; top: 100px; }
+.detail-price { font-family: 'Cormorant Garamond', serif; font-size: 2.6rem; font-weight: 300; color: var(--charcoal); line-height: 1; }
+.detail-price span { font-size: 1rem; color: var(--muted); }
+.detail-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; margin: 14px 0 6px; }
+.detail-loc { font-size: .9rem; color: var(--muted); margin-bottom: 22px; }
+.spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 22px 0; }
+.spec { background: var(--ivory); border-radius: 4px; padding: 14px; }
+.spec-v { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--charcoal); }
+.spec-l { font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+.detail-yield { background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.3); border-radius: 4px; padding: 14px 16px; font-size: .9rem; color: var(--gold); font-weight: 500; margin-bottom: 22px; }
+.detail-desc { padding: 56px 0; max-width: 760px; }
+.detail-desc h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 400; margin-bottom: 14px; }
+.detail-desc p { font-size: 1rem; line-height: 1.85; color: var(--muted); }
+.feature-list { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-top: 28px; }
+.feature-list div { font-size: .9rem; color: var(--charcoal); display: flex; gap: 10px; align-items: center; }
+.feature-list span { color: var(--gold); }
+.similar { padding: 0 60px 100px; }
+.similar h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 400; margin-bottom: 32px; }
+.btn-block { display: flex; gap: 10px; flex-direction: column; }
+.btn-block .btn-primary, .btn-block .btn-outline { text-align: center; }
+@media (max-width: 900px) {
+  .detail-wrap { padding: 100px 28px 60px; }
+  .detail-top { grid-template-columns: 1fr; gap: 24px; }
+  .gallery-main { height: 280px; }
+  .detail-side { position: static; }
+  .detail-desc { padding: 36px 28px; }
+  .similar { padding: 0 28px 70px; }
+  .similar .listings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; overflow: visible; }
+  .similar .listing-card { flex: none; }
+}
+@media (max-width: 600px) { .similar .listings-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav id="mainNav" class="solid">
+  <a href="index.html" class="nav-logo">Dimora View</a>
+  <ul class="nav-links">
+    <li><a href="locations.html">Locations</a></li>
+    <li><a href="listings.html">Properties</a></li>
+    <li><a href="investment.html">Investment</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="admin.html">Admin</a></li>
+    <li><a href="contact.html" class="nav-cta">Book Viewing</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="locations.html">Locations</a><a href="listings.html">Properties</a>
+  <a href="investment.html">Investment</a><a href="about.html">About</a>
+  <a href="admin.html">Admin</a><a href="contact.html">Book Viewing</a>
+</div>
+
+<div id="content"></div>
+
+<div id="footer-mount"></div>
+<div id="modal-mount"></div>
+<div class="toast" id="toast"></div>
+
+<script src="assets/app.js"></script>
+<script>
+const id = qs('id');
+const p = getListingById(id);
+const content = document.getElementById('content');
+
+if (!p) {
+  content.innerHTML = `<div class="detail-wrap" style="text-align:center;">
+    <h1 style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:2.4rem;">Property not found</h1>
+    <p style="color:var(--muted);margin:14px 0 28px;">This listing may have been removed.</p>
+    <a class="btn-primary" href="listings.html">Browse all listings</a></div>`;
+} else {
+  document.getElementById('ttl').textContent = p.name + ' | Dimora View Properties';
+  // build a small gallery from the main image + curated extras
+  const gallery = [p.img,
+    'https://images.unsplash.com/photo-1600210492493-0946911123ea?w=900&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=900&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=900&auto=format&fit=crop&q=80'];
+  const features = ['24/7 Security & Concierge','Verified Title & Survey','Backup Power','Fitted Kitchen','Parking & EV Ready','Smart-Home Wiring'];
+
+  content.innerHTML = `
+  <div class="detail-wrap">
+    <div class="breadcrumb" style="color:var(--muted);margin-bottom:18px;">
+      <a href="index.html">Home</a> / <a href="listings.html">Listings</a> / ${p.name}</div>
+    <div class="detail-top">
+      <div>
+        <div class="gallery-main">
+          <span class="gallery-tag">${p.tag}</span>
+          <img id="mainImg" src="${gallery[0]}" alt="${p.name}" />
+        </div>
+        <div class="thumbs" id="thumbs">
+          ${gallery.map((g,i) => `<img src="${g}" class="${i===0?'active':''}" onclick="setImg('${g}',this)" alt="thumbnail" />`).join('')}
+        </div>
+      </div>
+      <aside class="detail-side">
+        <div class="detail-price">${p.price} <span>/ property</span></div>
+        <div class="detail-name">${p.name}</div>
+        <div class="detail-loc">📍 ${p.loc}</div>
+        <div class="spec-grid">
+          ${p.beds ? `<div class="spec"><div class="spec-v">${p.beds}</div><div class="spec-l">Bedrooms</div></div>` : ''}
+          ${p.baths ? `<div class="spec"><div class="spec-v">${p.baths}</div><div class="spec-l">Bathrooms</div></div>` : ''}
+          <div class="spec"><div class="spec-v">${p.sqm}</div><div class="spec-l">Square Metres</div></div>
+          <div class="spec"><div class="spec-v">${p.type.split(' ')[0]}</div><div class="spec-l">Category</div></div>
+        </div>
+        ${p.yield ? `<div class="detail-yield">📊 ${p.yield}</div>` : ''}
+        <div class="btn-block">
+          <a class="btn-primary" href="contact.html?property=${encodeURIComponent(p.name)}">Book a Viewing</a>
+          <button class="btn-outline" onclick="saveProp(${p.id},this)">${getFavs().includes(Number(p.id))?'♥ Saved':'♡ Save Property'}</button>
+        </div>
+      </aside>
+    </div>
+    <div class="detail-desc">
+      <h3>About this property</h3>
+      <p>${p.desc}</p>
+      <div class="feature-list">
+        ${features.map(f => `<div><span>✦</span> ${f}</div>`).join('')}
+      </div>
+    </div>
+  </div>
+  <section class="similar">
+    <h3>Similar properties</h3>
+    <div class="listings-grid" id="similarGrid"></div>
+  </section>`;
+
+  const similar = getListings().filter(x => x.id !== p.id && (x.city === p.city || x.type === p.type)).slice(0, 4);
+  document.getElementById('similarGrid').innerHTML = (similar.length ? similar : getListings().filter(x=>x.id!==p.id).slice(0,4)).map(listingCardHTML).join('');
+}
+
+function setImg(src, el) {
+  document.getElementById('mainImg').src = src;
+  document.querySelectorAll('.thumbs img').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+function saveProp(id, btn) {
+  const on = toggleFav(id);
+  btn.textContent = on ? '♥ Saved' : '♡ Save Property';
+  showToast(on ? '♥ Added to your saved properties' : 'Removed from saved');
+}
+
+mountPartials();
+initChrome();
+</script>
+</body>
+</html>
