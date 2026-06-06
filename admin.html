@@ -8,7 +8,729 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/styles.css" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+--ivory: #F7F3ED;
+--warm-white: #FDFAF6;
+--charcoal: #1A1A18;
+--deep: #0D0D0B;
+--gold: #C9A84C;
+--gold-light: #E8C97A;
+--sand: #D4C5A9;
+--muted: #7A7167;
+--card-bg: #FFFFFF;
+--border: rgba(201,168,76,0.2);
+--shadow: 0 8px 40px rgba(26,26,24,0.1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+font-family: 'DM Sans', sans-serif;
+background: var(--warm-white);
+color: var(--charcoal);
+overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+position: fixed; top: 0; width: 100%; z-index: 1000;
+padding: 20px 60px;
+display: flex; align-items: center; justify-content: space-between;
+background: transparent;
+transition: background .4s, padding .4s;
+}
+nav.scrolled {
+background: rgba(253,250,246,0.95);
+backdrop-filter: blur(12px);
+padding: 14px 60px;
+box-shadow: 0 2px 24px rgba(26,26,24,0.08);
+}
+.nav-logo {
+font-family: 'Cormorant Garamond', serif;
+font-size: 1.5rem; font-weight: 600;
+color: var(--warm-white);
+letter-spacing: .04em;
+transition: color .4s;
+text-decoration: none;
+}
+nav.scrolled .nav-logo { color: var(--charcoal); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+font-size: .85rem; font-weight: 400; letter-spacing: .1em;
+text-transform: uppercase; text-decoration: none;
+color: rgba(255,255,255,.8);
+transition: color .3s;
+}
+nav.scrolled .nav-links a { color: var(--muted); }
+.nav-links a:hover, nav.scrolled .nav-links a:hover { color: var(--gold); }
+.nav-cta {
+padding: 10px 26px;
+background: var(--gold);
+color: var(--deep) !important;
+border-radius: 2px; font-weight: 500 !important;
+letter-spacing: .06em !important;
+transition: background .3s, transform .2s !important;
+}
+.nav-cta:hover { background: var(--gold-light) !important; transform: translateY(-1px); }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { width: 26px; height: 1.5px; background: white; transition: background .4s; }
+nav.scrolled .hamburger span { background: var(--charcoal); }
+
+/* ── HERO ── */
+#hero {
+height: 100vh; min-height: 680px;
+position: relative; display: flex; align-items: flex-end;
+overflow: hidden;
+}
+.hero-bg {
+position: absolute; inset: 0;
+background: linear-gradient(160deg, #1a1612 0%, #2a221a 40%, #1a1612 100%);
+}
+.hero-bg::before {
+content: '';
+position: absolute; inset: 0;
+background: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&auto=format&fit=crop&q=80') center/cover;
+opacity: .45;
+}
+.hero-bg::after {
+content: '';
+position: absolute; inset: 0;
+background: linear-gradient(to top, rgba(13,13,11,.9) 0%, rgba(13,13,11,.3) 60%, transparent 100%);
+}
+.hero-content {
+position: relative; z-index: 2;
+padding: 0 60px 80px;
+max-width: 760px;
+animation: heroIn .9s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes heroIn { from { opacity:0; transform: translateY(40px); } to { opacity:1; transform:translateY(0); } }
+.hero-eyebrow {
+font-size: .75rem; letter-spacing: .25em; text-transform: uppercase;
+color: var(--gold); margin-bottom: 20px;
+display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before { content:''; width:32px; height:1px; background:var(--gold); }
+.hero-title {
+font-family: 'Cormorant Garamond', serif;
+font-size: clamp(3rem, 6vw, 5.5rem);
+font-weight: 300; line-height: 1.08;
+color: var(--warm-white);
+margin-bottom: 24px;
+}
+.hero-title em { font-style: italic; color: var(--gold-light); }
+.hero-sub {
+font-size: 1rem; font-weight: 300; line-height: 1.7;
+color: rgba(247,243,237,.7);
+max-width: 480px; margin-bottom: 44px;
+}
+.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+padding: 15px 36px;
+background: var(--gold); color: var(--deep);
+font-family: 'DM Sans', sans-serif;
+font-size: .85rem; font-weight: 500; letter-spacing: .1em;
+text-transform: uppercase; text-decoration: none;
+border: none; cursor: pointer;
+border-radius: 2px;
+transition: background .3s, transform .2s;
+display: inline-block;
+}
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+.btn-ghost {
+padding: 15px 36px;
+background: transparent;
+color: var(--warm-white);
+font-family: 'DM Sans', sans-serif;
+font-size: .85rem; font-weight: 400; letter-spacing: .1em;
+text-transform: uppercase; text-decoration: none;
+border: 1px solid rgba(247,243,237,.35);
+border-radius: 2px; cursor: pointer;
+transition: border-color .3s, background .3s, transform .2s;
+display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+.hero-stats {
+position: absolute; right: 60px; bottom: 80px; z-index: 2;
+display: flex; flex-direction: column; gap: 24px;
+animation: heroIn 1.1s cubic-bezier(.22,1,.36,1) .2s both;
+}
+.stat-pill {
+background: rgba(247,243,237,.08);
+backdrop-filter: blur(12px);
+border: 1px solid rgba(201,168,76,.25);
+border-radius: 4px;
+padding: 14px 22px;
+text-align: right;
+}
+.stat-num {
+font-family: 'Cormorant Garamond', serif;
+font-size: 2rem; font-weight: 300; color: var(--gold-light);
+line-height: 1;
+}
+.stat-lbl { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(247,243,237,.5); margin-top: 2px; }
+.scroll-hint {
+position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+color: rgba(247,243,237,.4); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+}
+.scroll-line {
+width: 1px; height: 50px;
+background: linear-gradient(to bottom, rgba(201,168,76,.6), transparent);
+animation: scrollPulse 2s infinite;
+}
+@keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+/* ── SEARCH BAR ── */
+.search-strip {
+background: var(--charcoal);
+padding: 28px 60px;
+display: flex; gap: 0; align-items: stretch;
+}
+.search-strip select, .search-strip input {
+flex: 1; padding: 14px 18px;
+background: rgba(255,255,255,.07);
+border: 1px solid rgba(255,255,255,.1);
+color: var(--warm-white);
+font-family: 'DM Sans', sans-serif;
+font-size: .88rem;
+outline: none;
+transition: border-color .3s;
+}
+.search-strip select option { background: var(--charcoal); }
+.search-strip select:hover, .search-strip input:hover,
+.search-strip select:focus, .search-strip input:focus { border-color: var(--gold); }
+.search-strip .btn-primary { border-radius: 0; white-space: nowrap; }
+
+/* ── SECTION SHARED ── */
+section { padding: 100px 60px; }
+.section-eyebrow {
+font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+color: var(--gold); margin-bottom: 14px;
+display: flex; align-items: center; gap: 10px;
+}
+.section-eyebrow::before { content:''; width:24px; height:1px; background:var(--gold); }
+.section-title {
+font-family: 'Cormorant Garamond', serif;
+font-size: clamp(2rem, 4vw, 3.2rem);
+font-weight: 300; line-height: 1.15;
+color: var(--charcoal);
+margin-bottom: 16px;
+}
+.section-sub {
+font-size: .95rem; color: var(--muted); line-height: 1.7;
+max-width: 520px;
+}
+
+/* ── LOCATION CAROUSEL ── */
+#locations { padding-bottom: 80px; }
+.loc-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; flex-wrap: wrap; gap: 16px; }
+.loc-controls { display: flex; gap: 10px; }
+.carousel-btn {
+width: 44px; height: 44px; border-radius: 50%;
+border: 1px solid var(--border);
+background: transparent; cursor: pointer;
+display: flex; align-items: center; justify-content: center;
+color: var(--charcoal); font-size: 1.1rem;
+transition: background .3s, border-color .3s, color .3s;
+}
+.carousel-btn:hover { background: var(--gold); border-color: var(--gold); color: var(--deep); }
+.carousel-track-wrap { overflow: hidden; position: relative; }
+.carousel-track {
+display: flex; gap: 24px;
+transition: transform .55s cubic-bezier(.25,.46,.45,.94);
+}
+.loc-card {
+min-width: 300px; width: 300px; height: 400px;
+border-radius: 4px; overflow: hidden;
+position: relative; cursor: pointer;
+flex-shrink: 0;
+}
+.loc-card img {
+width: 100%; height: 100%; object-fit: cover;
+transition: transform .6s ease;
+}
+.loc-card:hover img { transform: scale(1.06); }
+.loc-overlay {
+position: absolute; inset: 0;
+background: linear-gradient(to top, rgba(13,13,11,.85) 0%, rgba(13,13,11,.1) 60%);
+display: flex; flex-direction: column; justify-content: flex-end;
+padding: 28px 24px;
+transition: background .4s;
+}
+.loc-card:hover .loc-overlay { background: linear-gradient(to top, rgba(13,13,11,.9) 0%, rgba(13,13,11,.2) 60%); }
+.loc-badge {
+position: absolute; top: 18px; right: 18px;
+background: var(--gold); color: var(--deep);
+font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+padding: 5px 12px; border-radius: 2px;
+}
+.loc-name {
+font-family: 'Cormorant Garamond', serif;
+font-size: 1.8rem; font-weight: 400; color: white; line-height: 1.1;
+}
+.loc-count { font-size: .78rem; color: rgba(247,243,237,.6); margin-top: 6px; }
+.loc-arrow {
+margin-top: 14px; width: 36px; height: 36px;
+border: 1px solid rgba(201,168,76,.4); border-radius: 50%;
+display: flex; align-items: center; justify-content: center;
+color: var(--gold); font-size: .9rem;
+transform: translateX(-8px); opacity: 0;
+transition: transform .35s, opacity .35s;
+}
+.loc-card:hover .loc-arrow { transform: translateX(0); opacity: 1; }
+.more-btn-wrap { text-align: center; margin-top: 48px; }
+.btn-outline {
+display: inline-block; padding: 13px 36px;
+border: 1px solid var(--gold); color: var(--gold);
+font-family: 'DM Sans', sans-serif;
+font-size: .82rem; font-weight: 400; letter-spacing: .12em;
+text-transform: uppercase; text-decoration: none;
+border-radius: 2px; cursor: pointer; background: transparent;
+transition: background .3s, color .3s;
+}
+.btn-outline:hover { background: var(--gold); color: var(--deep); }
+
+/* ── PROPERTY TYPES ── */
+#property-types { background: var(--ivory); }
+.types-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+gap: 20px; margin-top: 52px;
+}
+.type-card {
+background: white; border-radius: 4px;
+padding: 36px 28px;
+border: 1px solid rgba(201,168,76,.1);
+cursor: pointer; position: relative; overflow: hidden;
+transition: box-shadow .35s, transform .3s;
+}
+.type-card::before {
+content: '';
+position: absolute; bottom: 0; left: 0;
+width: 100%; height: 3px;
+background: var(--gold); transform: scaleX(0);
+transform-origin: left; transition: transform .4s;
+}
+.type-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+.type-card:hover::before { transform: scaleX(1); }
+.type-icon { font-size: 2.2rem; margin-bottom: 18px; }
+.type-name {
+font-family: 'Cormorant Garamond', serif;
+font-size: 1.35rem; font-weight: 400; color: var(--charcoal);
+margin-bottom: 8px;
+}
+.type-desc { font-size: .83rem; color: var(--muted); line-height: 1.6; }
+.type-count {
+margin-top: 18px; font-size: .75rem; letter-spacing: .1em;
+text-transform: uppercase; color: var(--gold); font-weight: 500;
+}
+
+/* ── FEATURED LISTINGS ── */
+#listings { padding: 100px 60px; }
+.listings-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 52px; flex-wrap: wrap; gap: 16px; }
+.listings-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+gap: 28px;
+}
+.listing-card {
+background: white; border-radius: 4px; overflow: hidden;
+box-shadow: 0 2px 16px rgba(26,26,24,.06);
+transition: box-shadow .35s, transform .3s;
+}
+.listing-card:hover { box-shadow: var(--shadow); transform: translateY(-4px); }
+.listing-img { position: relative; height: 220px; overflow: hidden; }
+.listing-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+.listing-card:hover .listing-img img { transform: scale(1.05); }
+.listing-tag {
+position: absolute; top: 16px; left: 16px;
+background: var(--charcoal); color: var(--gold);
+font-size: .68rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+padding: 5px 12px; border-radius: 2px;
+}
+.listing-tag.invest { background: var(--gold); color: var(--deep); }
+.listing-fav {
+position: absolute; top: 16px; right: 16px;
+width: 34px; height: 34px; border-radius: 50%;
+background: rgba(255,255,255,.9); border: none; cursor: pointer;
+display: flex; align-items: center; justify-content: center;
+font-size: 1rem; transition: transform .2s;
+}
+.listing-fav:hover { transform: scale(1.15); }
+.listing-body { padding: 22px 24px 24px; }
+.listing-price {
+font-family: 'Cormorant Garamond', serif;
+font-size: 1.6rem; font-weight: 300; color: var(--charcoal);
+}
+.listing-price span { font-size: 1rem; color: var(--muted); }
+.listing-name { font-size: .9rem; font-weight: 500; color: var(--charcoal); margin: 8px 0 4px; }
+.listing-loc { font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+.listing-meta {
+margin-top: 16px; padding-top: 16px;
+border-top: 1px solid rgba(201,168,76,.15);
+display: flex; gap: 20px;
+}
+.meta-item { font-size: .78rem; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+.yield-badge {
+margin-top: 14px;
+background: rgba(201,168,76,.1);
+border: 1px solid rgba(201,168,76,.25);
+border-radius: 2px; padding: 8px 12px;
+font-size: .78rem; color: var(--gold); font-weight: 500;
+}
+
+/* ── INVESTMENT ── */
+#investment {
+background: var(--charcoal);
+color: var(--warm-white);
+position: relative; overflow: hidden;
+}
+#investment::before {
+content: '';
+position: absolute; top: -120px; right: -120px;
+width: 500px; height: 500px;
+background: radial-gradient(circle, rgba(201,168,76,.12) 0%, transparent 70%);
+pointer-events: none;
+}
+#investment .section-title { color: var(--warm-white); }
+#investment .section-sub { color: rgba(247,243,237,.6); }
+.invest-grid {
+display: grid; grid-template-columns: 1fr 1fr;
+gap: 80px; margin-top: 64px; align-items: center;
+}
+.invest-cards { display: flex; flex-direction: column; gap: 20px; }
+.invest-card {
+background: rgba(255,255,255,.05);
+border: 1px solid rgba(201,168,76,.2);
+border-radius: 4px; padding: 28px 24px;
+display: flex; gap: 20px; align-items: flex-start;
+transition: background .3s;
+}
+.invest-card:hover { background: rgba(201,168,76,.08); }
+.invest-icon {
+width: 48px; height: 48px; border-radius: 50%;
+background: rgba(201,168,76,.15);
+display: flex; align-items: center; justify-content: center;
+font-size: 1.3rem; flex-shrink: 0;
+}
+.invest-card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: var(--gold-light); margin-bottom: 6px; }
+.invest-card-desc { font-size: .83rem; color: rgba(247,243,237,.6); line-height: 1.65; }
+.invest-stats { display: flex; flex-direction: column; gap: 32px; }
+.big-stat {
+border-left: 2px solid var(--gold);
+padding-left: 28px;
+}
+.big-num {
+font-family: 'Cormorant Garamond', serif;
+font-size: 4rem; font-weight: 300; color: var(--gold-light); line-height: 1;
+}
+.big-lbl { font-size: .85rem; color: rgba(247,243,237,.5); margin-top: 6px; max-width: 200px; line-height: 1.5; }
+.invest-chart { margin-top: 40px; }
+.chart-label { font-size: .78rem; color: rgba(247,243,237,.5); margin-bottom: 16px; letter-spacing: .1em; text-transform: uppercase; }
+.bar-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.bar-yr { font-size: .78rem; color: rgba(247,243,237,.5); width: 36px; flex-shrink: 0; }
+.bar-wrap { flex: 1; height: 8px; background: rgba(255,255,255,.08); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); animation: barGrow 1.2s ease both; }
+@keyframes barGrow { from { width: 0 !important; } }
+.bar-val { font-size: .78rem; color: var(--gold-light); width: 36px; flex-shrink: 0; }
+
+/* ── TESTIMONIALS ── */
+#testimonials { background: var(--ivory); }
+.testi-grid {
+display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+gap: 24px; margin-top: 52px;
+}
+.testi-card {
+background: white; border-radius: 4px; padding: 32px;
+border: 1px solid rgba(201,168,76,.1);
+position: relative;
+}
+.testi-card::before {
+content: '"';
+font-family: 'Cormorant Garamond', serif;
+font-size: 5rem; color: rgba(201,168,76,.15);
+position: absolute; top: 10px; right: 20px; line-height: 1;
+}
+.testi-text { font-size: .9rem; color: var(--muted); line-height: 1.75; margin-bottom: 22px; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+width: 44px; height: 44px; border-radius: 50%;
+background: var(--gold); display: flex; align-items: center; justify-content: center;
+font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--deep);
+}
+.testi-name { font-size: .88rem; font-weight: 500; color: var(--charcoal); }
+.testi-role { font-size: .75rem; color: var(--muted); }
+.stars { color: var(--gold); font-size: .85rem; margin-bottom: 14px; }
+
+/* ── PARTNERS ── */
+#partners { padding: 60px 60px; border-top: 1px solid rgba(201,168,76,.15); }
+.partners-label {
+text-align: center; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+color: var(--muted); margin-bottom: 40px;
+}
+.partners-track-wrap { overflow: hidden; }
+.partners-track {
+display: flex; gap: 60px; align-items: center;
+animation: partnerScroll 18s linear infinite;
+}
+@keyframes partnerScroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+.partner-logo {
+flex-shrink: 0; opacity: .45; filter: grayscale(100%);
+transition: opacity .3s, filter .3s;
+font-family: 'Cormorant Garamond', serif;
+font-size: 1.2rem; letter-spacing: .08em;
+color: var(--charcoal); white-space: nowrap;
+}
+.partner-logo:hover { opacity: 1; filter: none; }
+.partners-track-wrap:hover .partners-track { animation-play-state: paused; }
+
+/* ── CTA BANNER ── */
+#cta-banner {
+background: var(--gold);
+padding: 80px 60px;
+display: flex; align-items: center; justify-content: space-between;
+gap: 40px; flex-wrap: wrap;
+}
+#cta-banner h2 {
+font-family: 'Cormorant Garamond', serif;
+font-size: clamp(1.8rem, 3.5vw, 3rem);
+font-weight: 300; color: var(--deep);
+max-width: 560px; line-height: 1.2;
+}
+.cta-dark {
+padding: 16px 38px;
+background: var(--deep); color: var(--gold);
+font-family: 'DM Sans', sans-serif;
+font-size: .85rem; font-weight: 500; letter-spacing: .1em;
+text-transform: uppercase; text-decoration: none;
+border-radius: 2px;
+transition: background .3s, transform .2s;
+white-space: nowrap;
+}
+.cta-dark:hover { background: var(--charcoal); transform: translateY(-2px); }
+
+/* ── FOOTER ── */
+footer {
+background: var(--deep); color: rgba(247,243,237,.5);
+padding: 72px 60px 40px;
+}
+.footer-grid {
+display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+gap: 60px; margin-bottom: 64px;
+}
+.footer-brand .nav-logo { color: var(--warm-white); display: block; margin-bottom: 16px; }
+.footer-brand p { font-size: .85rem; line-height: 1.7; max-width: 260px; }
+.footer-socials { display: flex; gap: 12px; margin-top: 24px; }
+.social-btn {
+width: 36px; height: 36px; border-radius: 50%;
+border: 1px solid rgba(247,243,237,.15);
+display: flex; align-items: center; justify-content: center;
+color: rgba(247,243,237,.5); font-size: .85rem;
+text-decoration: none;
+transition: border-color .3s, color .3s, background .3s;
+}
+.social-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,.08); }
+.footer-col h4 {
+font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
+color: var(--warm-white); margin-bottom: 20px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul a {
+font-size: .83rem; color: rgba(247,243,237,.45); text-decoration: none;
+transition: color .3s;
+}
+.footer-col ul a:hover { color: var(--gold); }
+.footer-bottom {
+border-top: 1px solid rgba(247,243,237,.08);
+padding-top: 32px; display: flex; justify-content: space-between;
+align-items: center; font-size: .78rem; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom a { color: var(--gold); text-decoration: none; }
+
+/* ── MODAL ── */
+.modal-backdrop {
+position: fixed; inset: 0; background: rgba(13,13,11,.8);
+backdrop-filter: blur(4px); z-index: 2000;
+display: flex; align-items: center; justify-content: center;
+opacity: 0; pointer-events: none; transition: opacity .35s;
+}
+.modal-backdrop.open { opacity: 1; pointer-events: all; }
+.modal {
+background: white; border-radius: 6px;
+padding: 40px; max-width: 560px; width: 90%;
+transform: translateY(20px) scale(.97);
+transition: transform .35s cubic-bezier(.25,.46,.45,.94);
+position: relative; max-height: 90vh; overflow-y: auto;
+}
+.modal-backdrop.open .modal { transform: translateY(0) scale(1); }
+.modal-close {
+position: absolute; top: 16px; right: 18px;
+background: none; border: none; font-size: 1.4rem;
+cursor: pointer; color: var(--muted);
+}
+.modal h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; margin-bottom: 8px; }
+.modal p { font-size: .88rem; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
+.form-group input, .form-group select, .form-group textarea {
+width: 100%; padding: 12px 14px;
+border: 1px solid rgba(201,168,76,.25); border-radius: 2px;
+font-family: 'DM Sans', sans-serif; font-size: .88rem;
+outline: none; transition: border-color .3s;
+background: white; color: var(--charcoal);
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+.toast {
+position: fixed; bottom: 30px; right: 30px; z-index: 3000;
+background: var(--charcoal); color: var(--warm-white);
+padding: 14px 22px; border-radius: 4px;
+font-size: .85rem; border-left: 3px solid var(--gold);
+transform: translateY(20px); opacity: 0;
+transition: all .35s; pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ── MOBILE NAV ── */
+.mobile-menu {
+display: none; position: fixed; inset: 0;
+background: var(--deep); z-index: 999;
+flex-direction: column; align-items: center; justify-content: center;
+gap: 32px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+font-family: 'Cormorant Garamond', serif;
+font-size: 2rem; color: var(--warm-white); text-decoration: none;
+transition: color .3s;
+}
+.mobile-menu a:hover { color: var(--gold); }
+.mobile-close { position: absolute; top: 28px; right: 28px; background: none; border: none; color: white; font-size: 1.8rem; cursor: pointer; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+nav { padding: 18px 28px; }
+nav.scrolled { padding: 14px 28px; }
+.nav-links { display: none; }
+.hamburger { display: flex; }
+.hero-content { padding: 0 28px 60px; }
+.hero-stats { display: none; }
+section { padding: 70px 28px; }
+.search-strip { padding: 20px 28px; flex-wrap: wrap; }
+.invest-grid { grid-template-columns: 1fr; gap: 48px; }
+.footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+#cta-banner { padding: 60px 28px; flex-direction: column; }
+#partners { padding: 40px 28px; }
+}
+@media (max-width: 600px) {
+.footer-grid { grid-template-columns: 1fr; }
+.listings-header, .loc-header { flex-direction: column; align-items: flex-start; }
+}
+/* ════════════════════════════════════════════════════════════════
+   EXTENSIONS — shared helpers for inner pages + mobile behaviours.
+   The block ABOVE this line is the original homepage CSS, untouched.
+   ════════════════════════════════════════════════════════════════ */
+
+/* make listing/loc cards behave as links without changing their look */
+a.listing-card, a.loc-card, a.type-card { text-decoration: none; color: inherit; display: block; }
+
+/* ── INNER-PAGE HERO (listings, property, about, contact, etc.) ── */
+.page-hero {
+  position: relative; min-height: 52vh; display: flex; align-items: flex-end;
+  padding: 120px 60px 60px; overflow: hidden;
+  background: linear-gradient(160deg, #1a1612 0%, #2a221a 40%, #1a1612 100%);
+}
+.page-hero::before { content: ''; position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .4; }
+.page-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,13,11,.92) 0%, rgba(13,13,11,.35) 60%, transparent 100%); }
+.page-hero-inner { position: relative; z-index: 2; max-width: 760px; animation: heroIn .8s cubic-bezier(.22,1,.36,1) both; }
+.page-hero .hero-eyebrow { font-size: .75rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+.page-hero .hero-eyebrow::before { content:''; width:32px; height:1px; background:var(--gold); }
+.page-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 5.5vw, 4.6rem); font-weight: 300; line-height: 1.08; color: var(--warm-white); margin-bottom: 18px; }
+.page-hero h1 em { font-style: italic; color: var(--gold-light); }
+.page-hero p { font-size: 1rem; font-weight: 300; line-height: 1.7; color: rgba(247,243,237,.75); max-width: 540px; }
+.breadcrumb { position: relative; z-index: 2; font-size: .78rem; letter-spacing: .08em; color: rgba(247,243,237,.55); margin-bottom: 18px; }
+.breadcrumb a { color: var(--gold); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+@keyframes heroIn { from { opacity:0; transform: translateY(40px); } to { opacity:1; transform:translateY(0); } }
+
+/* utility */
+.mobile-only { display: none; }
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.fade-up.in { opacity: 1; transform: translateY(0); }
+.swipe-hint { display: none; text-align: center; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 18px; }
+.swipe-hint span { color: var(--gold); }
+.view-more-mobile { display: none; text-align: center; margin-top: 30px; }
+
+/* reorder wrapper — normal flow on desktop */
+.reorder-zone { display: block; }
+
+@keyframes nudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-22px); } }
+
+/* ════════════════ MOBILE BEHAVIOURS (the three requests) ════════════════ */
+@media (max-width: 900px) {
+  .mobile-only { display: block; }
+  .desktop-only { display: none; }
+
+  /* (2) On mobile, reorder so Featured Listings sits ABOVE Property categories */
+  .reorder-zone { display: flex; flex-direction: column; }
+  .reorder-zone > #locations      { order: 1; }
+  .reorder-zone > #listings       { order: 2; }
+  .reorder-zone > #property-types { order: 3; }
+
+  /* (1) LOCATIONS — native swipe, 2 cards + 3rd peeking, capped at 3 */
+  .loc-controls { display: none; }                  /* desktop arrows hidden — swipe instead */
+  .carousel-track-wrap { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .carousel-track-wrap::-webkit-scrollbar { display: none; }
+  .carousel-track { transform: none !important; gap: 16px; }
+  .loc-card { min-width: 0; width: 43%; flex: 0 0 43%; height: 300px; scroll-snap-align: start; }
+  #locations .loc-card:nth-child(n+4) { display: none; }   /* show only 3, then "View All" */
+
+  /* (3) PROPERTY TYPES — 2 per row on mobile */
+  .types-grid { grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 36px; }
+
+  /* (2) FEATURED LISTINGS — native swipe carousel, 2 + peek, capped at 4 */
+  .listings-grid {
+    display: flex; gap: 16px; overflow-x: auto;
+    scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+    grid-template-columns: none;
+  }
+  .listings-grid::-webkit-scrollbar { display: none; }
+  .listing-card { flex: 0 0 60%; scroll-snap-align: start; }
+  #listings .listing-card:nth-child(n+5) { display: none; }  /* show only 4, then "View More" */
+
+  .swipe-hint { display: block; }
+  .view-more-mobile { display: block; }
+
+  .page-hero { padding: 100px 28px 48px; min-height: 46vh; }
+}
+
+@media (max-width: 600px) {
+  .loc-card { width: 62%; flex-basis: 62%; }    /* slightly larger, still peeks the next */
+  .listing-card { flex: 0 0 74%; }
+  /* property types stay 2-up per request */
+}
+
+/* solid nav for inner pages (mirrors the scrolled state, applied immediately) */
+nav.solid {
+  background: rgba(253,250,246,0.97);
+  backdrop-filter: blur(12px);
+  padding: 14px 60px;
+  box-shadow: 0 2px 24px rgba(26,26,24,0.08);
+}
+nav.solid .nav-logo { color: var(--charcoal); }
+nav.solid .nav-links a { color: var(--muted); }
+nav.solid .nav-links a:hover { color: var(--gold); }
+nav.solid .nav-links a.active { color: var(--gold); }
+nav.solid .hamburger span { background: var(--charcoal); }
+@media (max-width: 900px) { nav.solid { padding: 14px 28px; } }
+
+/* two-column form rows (contact, etc.) */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 600px) { .form-row { grid-template-columns: 1fr; gap: 0; } }
+
+</style>
 <style>
 .page-hero::before { background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1800&auto=format&fit=crop&q=80'); }
 
@@ -251,7 +973,320 @@ table.admin-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
 <div id="footer-mount"></div>
 <div class="toast" id="toast"></div>
 
-<script src="assets/app.js"></script>
+<script>
+/* ============================================================
+   DIMORA VIEW PROPERTIES — Shared App Logic & Data
+   ============================================================ */
+
+/* ── SEED DATA ── */
+const LOCATIONS = [
+  { name: 'Lagos', country: 'Nigeria', count: '340 Properties', badge: 'Hot', img: 'https://images.unsplash.com/photo-1618077360395-f3068be8e001?w=600&auto=format&fit=crop&q=80' },
+  { name: 'Abuja', country: 'Nigeria', count: '210 Properties', badge: 'Rising', img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&auto=format&fit=crop&q=80' },
+  { name: 'Dubai', country: 'UAE', count: '158 Properties', badge: 'Luxury', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600&auto=format&fit=crop&q=80' },
+  { name: 'London', country: 'UK', count: '94 Properties', badge: 'Premium', img: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=600&auto=format&fit=crop&q=80' },
+  { name: 'Port Harcourt', country: 'Nigeria', count: '126 Properties', badge: 'New', img: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=600&auto=format&fit=crop&q=80' },
+  { name: 'Accra', country: 'Ghana', count: '88 Properties', badge: 'Trending', img: 'https://images.unsplash.com/photo-1585813540765-b7fa68e0c977?w=600&auto=format&fit=crop&q=80' },
+  { name: 'Nairobi', country: 'Kenya', count: '72 Properties', badge: 'New', img: 'https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=600&auto=format&fit=crop&q=80' },
+];
+
+const PROPERTY_TYPES = [
+  { icon: '🏢', name: 'Apartments', desc: 'Modern city-centre apartments from studio to 5-bedroom penthouses in prime locations.', count: '480+ listings' },
+  { icon: '🏡', name: 'Villas & Duplexes', desc: 'Spacious, architecturally stunning homes in gated estates and private compounds.', count: '220+ listings' },
+  { icon: '🏗️', name: 'Off-Plan', desc: 'Invest early at developer prices and earn equity before completion.', count: '95+ projects' },
+  { icon: '🏬', name: 'Commercial', desc: 'Office spaces, retail units, and mixed-use developments for business owners.', count: '130+ listings' },
+  { icon: '🌳', name: 'Land', desc: 'Verified, documented plots of land in fast-appreciating corridors.', count: '340+ plots' },
+  { icon: '🌊', name: 'Waterfront', desc: 'Exclusive waterfront and ocean-view residences in elite coastal districts.', count: '58+ listings' },
+  { icon: '🏨', name: 'Short-Let', desc: 'Fully managed short-let properties generating consistent monthly rental income.', count: '185+ listings' },
+  { icon: '🏙️', name: 'Penthouse', desc: 'Ultra-premium rooftop residences with panoramic views and private amenities.', count: '34+ listings' },
+];
+
+const SEED_LISTINGS = [
+  { id: 1, name: 'Horizon Court Residences', loc: 'Victoria Island, Lagos', city: 'Lagos', type: 'Apartments', price: '₦185M', beds: 4, baths: 4, sqm: 320, img: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&auto=format&fit=crop&q=80', tag: 'For Sale', invest: true, yield: '12.4% Annual Yield', desc: 'A refined collection of four-bedroom residences overlooking the Atlantic, with floor-to-ceiling glazing, private terraces and 24-hour concierge.' },
+  { id: 2, name: 'Serenova Villa Estate', loc: 'Maitama, Abuja', city: 'Abuja', type: 'Villas & Duplexes', price: '₦350M', beds: 5, baths: 6, sqm: 560, img: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=900&auto=format&fit=crop&q=80', tag: 'Premium', invest: false, yield: null, desc: 'An architecturally striking five-bedroom villa set within a gated Maitama estate, featuring a private pool, home cinema and landscaped gardens.' },
+  { id: 3, name: 'The Peninsula Suites', loc: 'Dubai Marina, UAE', city: 'Dubai', type: 'Apartments', price: '$780K', beds: 3, baths: 3, sqm: 210, img: 'https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=900&auto=format&fit=crop&q=80', tag: 'Investment', invest: true, yield: '16.8% Annual Yield', desc: 'High-yield marina-front suites in one of Dubai\'s most sought-after towers, fully managed for short-let income.' },
+  { id: 4, name: 'Creekside Townhomes', loc: 'Lekki Phase 1, Lagos', city: 'Lagos', type: 'Villas & Duplexes', price: '₦95M', beds: 3, baths: 3, sqm: 185, img: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&auto=format&fit=crop&q=80', tag: 'For Sale', invest: true, yield: '10.2% Annual Yield', desc: 'Contemporary three-bedroom townhomes in the heart of Lekki Phase 1, walking distance to schools, dining and the waterfront.' },
+  { id: 5, name: 'Ivory Tower Penthouse', loc: 'Ikoyi, Lagos', city: 'Lagos', type: 'Penthouse', price: '₦620M', beds: 6, baths: 7, sqm: 780, img: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=900&auto=format&fit=crop&q=80', tag: 'Luxury', invest: false, yield: null, desc: 'A full-floor penthouse crowning Ikoyi\'s skyline, with wraparound terraces, private lift access and panoramic lagoon views.' },
+  { id: 6, name: 'GreenPark Apartments', loc: 'Wuse 2, Abuja', city: 'Abuja', type: 'Apartments', price: '₦65M', beds: 2, baths: 2, sqm: 120, img: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&auto=format&fit=crop&q=80', tag: 'Investment', invest: true, yield: '13.7% Annual Yield', desc: 'Smartly designed two-bedroom apartments in central Wuse 2, ideal for first-time investors seeking dependable rental returns.' },
+  { id: 7, name: 'Marina Bay Offices', loc: 'Victoria Island, Lagos', city: 'Lagos', type: 'Commercial', price: '₦480M', beds: 0, baths: 4, sqm: 640, img: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=900&auto=format&fit=crop&q=80', tag: 'Commercial', invest: true, yield: '11.5% Annual Yield', desc: 'Grade-A office floors in a landmark VI tower with premium fit-out, dedicated parking and blue-chip tenant covenants.' },
+  { id: 8, name: 'Thames Riverside Flat', loc: 'Canary Wharf, London', city: 'London', type: 'Apartments', price: '£540K', beds: 2, baths: 2, sqm: 95, img: 'https://images.unsplash.com/photo-1494526585095-c41746248156?w=900&auto=format&fit=crop&q=80', tag: 'Premium', invest: true, yield: '8.4% Annual Yield', desc: 'A bright riverside apartment in Canary Wharf with concierge, gym and direct transport links to the City.' },
+  { id: 9, name: 'Cantonments Garden Villa', loc: 'Cantonments, Accra', city: 'Accra', type: 'Villas & Duplexes', price: '$420K', beds: 4, baths: 4, sqm: 380, img: 'https://images.unsplash.com/photo-1576941089067-2de3c901e126?w=900&auto=format&fit=crop&q=80', tag: 'For Sale', invest: false, yield: null, desc: 'A serene four-bedroom villa in Accra\'s diplomatic Cantonments district, with mature gardens and staff quarters.' },
+  { id: 10, name: 'Banana Island Waterfront', loc: 'Banana Island, Lagos', city: 'Lagos', type: 'Waterfront', price: '₦1.2B', beds: 7, baths: 8, sqm: 1100, img: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&auto=format&fit=crop&q=80', tag: 'Luxury', invest: false, yield: null, desc: 'An extraordinary waterfront mansion on Banana Island with private jetty, infinity pool and bespoke interiors throughout.' },
+  { id: 11, name: 'Eko Atlantic Off-Plan', loc: 'Eko Atlantic, Lagos', city: 'Lagos', type: 'Off-Plan', price: '₦210M', beds: 3, baths: 3, sqm: 240, img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=900&auto=format&fit=crop&q=80', tag: 'Off-Plan', invest: true, yield: '17.0% Projected Yield', desc: 'Secure equity at developer pricing in a flagship Eko Atlantic tower, delivering in 2027 with staged payment plans.' },
+  { id: 12, name: 'Verdant Acres Plot', loc: 'Epe, Lagos', city: 'Lagos', type: 'Land', price: '₦28M', beds: 0, baths: 0, sqm: 648, img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=900&auto=format&fit=crop&q=80', tag: 'Land', invest: true, yield: '20%+ Appreciation', desc: 'Verified, fully documented plots in the fast-growing Epe corridor with governor\'s consent and survey in place.' },
+];
+
+const INVEST_CARDS = [
+  { icon: '📈', title: 'Capital Appreciation', desc: 'Our properties in high-demand corridors consistently outperform market averages, delivering 15–25% capital growth over 3-year cycles.' },
+  { icon: '💰', title: 'Rental Income (Pedal Program)', desc: 'Properties on our Pedal program are fully managed and short-let, generating predictable monthly income with zero landlord stress.' },
+  { icon: '🔐', title: 'Secure Titles & Documentation', desc: 'Every Dimora View listing comes with verified titles, governor\'s consent, survey plans, and legal due diligence completed.' },
+  { icon: '🌐', title: 'Global Portfolio Diversification', desc: 'Spread your investment across Lagos, Dubai, London and Accra — building multi-currency asset portfolios that hedge against local volatility.' },
+];
+
+const TESTIMONIALS = [
+  { text: 'The Pedal program changed my financial life. My Lekki apartment now earns ₦1.8M monthly while I live in London. Dimora View handles everything.', name: 'Chisom Adeyemi', role: 'Investor · London', init: 'CA', stars: 5 },
+  { text: 'I was sceptical about investing in Dubai from Nigeria. The team walked me through every step — documentation, FX transfer, management. Seamless.', name: 'Emeka Okafor', role: 'Property Investor', init: 'EO', stars: 5 },
+  { text: 'We found our dream family home in Maitama at exactly our budget. No pressure, just genuine guidance. Highly recommended.', name: 'Aisha Bello', role: 'Homebuyer · Abuja', init: 'AB', stars: 5 },
+  { text: 'The ROI data they provided was accurate — our short-let villa has been delivering 15.2% net yield since acquisition. Incredible.', name: 'Tunde Fashola', role: 'Real Estate Investor', init: 'TF', stars: 5 },
+  { text: 'Professional, transparent, and incredibly knowledgeable. Dimora View is redefining what a real estate agency should be in Africa.', name: 'Ngozi Williams', role: 'Property Developer', init: 'NW', stars: 5 },
+  { text: 'I bought off-plan through them in 2022. The property value has appreciated by over 40% already and we haven\'t even moved in.', name: 'Biodun Adegoke', role: 'Business Owner', init: 'BA', stars: 5 },
+];
+
+const PARTNERS = [
+  'Sterling Bank', 'Stanbic IBTC', 'Emirates NBD', 'Knight Frank', 'JLL Africa',
+  'LASAA', 'FCDA', 'Citi Group', 'PwC Nigeria', 'DSCR Realty', 'ARM Properties', 'Nestoria Africa',
+];
+
+const RETURN_DATA = [
+  { yr: 'Y1', val: 10 }, { yr: 'Y2', val: 12 }, { yr: 'Y3', val: 13.5 },
+  { yr: 'Y5', val: 15 }, { yr: 'Y10', val: 18 },
+];
+
+/* ── STORAGE LAYER (makes the whole site dynamic & editable from Admin) ── */
+const LS_KEY = 'dimora_listings_v1';
+
+function getListings() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length) return parsed;
+    }
+  } catch (e) { /* storage unavailable — fall back to seed */ }
+  return SEED_LISTINGS.slice();
+}
+function saveListings(list) {
+  try { localStorage.setItem(LS_KEY, JSON.stringify(list)); return true; }
+  catch (e) { return false; }
+}
+function resetListings() {
+  try { localStorage.removeItem(LS_KEY); return true; } catch (e) { return false; }
+}
+function getListingById(id) {
+  return getListings().find(l => String(l.id) === String(id));
+}
+
+/* ── FAVOURITES ── */
+const FAV_KEY = 'dimora_favs_v1';
+function getFavs() { try { return JSON.parse(localStorage.getItem(FAV_KEY) || '[]'); } catch (e) { return []; } }
+function toggleFav(id) {
+  let favs = getFavs();
+  id = Number(id);
+  if (favs.includes(id)) favs = favs.filter(f => f !== id); else favs.push(id);
+  try { localStorage.setItem(FAV_KEY, JSON.stringify(favs)); } catch (e) {}
+  return favs.includes(id);
+}
+
+/* ── CARD TEMPLATES ── */
+function listingCardHTML(l) {
+  const saved = getFavs().includes(Number(l.id)) ? 'saved' : '';
+  const heart = getFavs().includes(Number(l.id)) ? '♥' : '♡';
+  return `
+  <a class="listing-card" href="property.html?id=${l.id}">
+    <div class="listing-img">
+      <img src="${l.img}" alt="${l.name}" loading="lazy" />
+      <span class="listing-tag ${l.invest ? 'invest' : ''}">${l.tag}</span>
+      <button class="listing-fav ${saved}" aria-label="Save property"
+        onclick="event.preventDefault();event.stopPropagation();this.classList.toggle('saved');this.textContent=toggleFav(${l.id})?'♥':'♡';">${heart}</button>
+    </div>
+    <div class="listing-body">
+      <div class="listing-price">${l.price} <span>/ property</span></div>
+      <div class="listing-name">${l.name}</div>
+      <div class="listing-loc">📍 ${l.loc}</div>
+      <div class="listing-meta">
+        ${l.beds ? `<span class="meta-item">🛏 ${l.beds} Beds</span>` : ''}
+        ${l.baths ? `<span class="meta-item">🚿 ${l.baths} Baths</span>` : ''}
+        <span class="meta-item">📐 ${l.sqm} m²</span>
+      </div>
+      ${l.yield ? `<div class="yield-badge">📊 ${l.yield}</div>` : ''}
+    </div>
+  </a>`;
+}
+
+function typeCardHTML(t) {
+  return `
+  <a class="type-card" href="category.html?type=${encodeURIComponent(t.name)}">
+    <div class="type-icon">${t.icon}</div>
+    <div class="type-name">${t.name}</div>
+    <div class="type-desc">${t.desc}</div>
+    <div class="type-count">${t.count}</div>
+  </a>`;
+}
+
+function locCardHTML(l) {
+  return `
+  <a class="loc-card" href="listings.html?loc=${encodeURIComponent(l.name)}">
+    <img src="${l.img}" alt="${l.name} real estate" loading="lazy" />
+    <div class="loc-overlay">
+      <span class="loc-badge">${l.badge}</span>
+      <div class="loc-name">${l.name}</div>
+      <div class="loc-count">${l.count}</div>
+      <div class="loc-arrow">→</div>
+    </div>
+  </a>`;
+}
+
+/* ── SCROLL-SNAP CAROUSEL (works for both desktop buttons + mobile swipe) ── */
+function initCarousel(wrapSel, prevSel, nextSel) {
+  const wrap = document.querySelector(wrapSel);
+  if (!wrap) return;
+  const step = () => {
+    const card = wrap.querySelector('.loc-card, .listing-card');
+    return card ? card.getBoundingClientRect().width + 24 : 320;
+  };
+  const prev = prevSel && document.querySelector(prevSel);
+  const next = nextSel && document.querySelector(nextSel);
+  if (prev) prev.addEventListener('click', () => wrap.scrollBy({ left: -step(), behavior: 'smooth' }));
+  if (next) next.addEventListener('click', () => wrap.scrollBy({ left: step(), behavior: 'smooth' }));
+}
+
+/* one-time "toggle in/out" nudge to hint swipe-ability on mobile */
+function nudgeCarousel(sel) {
+  if (window.innerWidth > 900) return;
+  const wrap = document.querySelector(sel);
+  if (!wrap) return;
+  setTimeout(() => {
+    wrap.scrollTo({ left: 70, behavior: 'smooth' });
+    setTimeout(() => wrap.scrollTo({ left: 0, behavior: 'smooth' }), 650);
+  }, 900);
+}
+
+/* ── NAV / MOBILE MENU ── */
+function initChrome() {
+  const nav = document.getElementById('mainNav');
+  if (nav && !nav.classList.contains('solid')) {
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+  }
+  const burger = document.getElementById('hamburger');
+  const menu = document.getElementById('mobileMenu');
+  if (burger && menu) {
+    burger.addEventListener('click', () => { menu.classList.add('open'); document.body.style.overflow = 'hidden'; });
+    const close = document.getElementById('mobileClose');
+    if (close) close.addEventListener('click', closeMobile);
+  }
+}
+function closeMobile() {
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── MODAL ── */
+function openModal() { const m = document.getElementById('modalBackdrop'); if (m) { m.classList.add('open'); document.body.style.overflow = 'hidden'; } }
+function closeModal() { const m = document.getElementById('modalBackdrop'); if (m) { m.classList.remove('open'); document.body.style.overflow = ''; } }
+function handleBackdropClick(e) { if (e.target === document.getElementById('modalBackdrop')) closeModal(); }
+function submitBooking() {
+  closeModal();
+  showToast('✓ Your booking request has been received! We\'ll contact you within 24 hours.');
+}
+
+/* ── TOAST ── */
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) { t = document.createElement('div'); t.id = 'toast'; t.className = 'toast'; document.body.appendChild(t); }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* ── SCROLL REVEAL ── */
+function initReveal() {
+  const els = document.querySelectorAll('.fade-up');
+  if (!els.length) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  els.forEach(el => obs.observe(el));
+}
+
+/* ── SHARED PARTIALS (footer + booking modal) injected so every page matches ── */
+function footerHTML() {
+  return `
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo">Dimora View Properties</a>
+        <p>Premium real estate across Nigeria and beyond. We connect visionary buyers with exceptional properties and investment opportunities.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" aria-label="Instagram">&#9679;</a>
+          <a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+          <a href="#" class="social-btn" aria-label="Twitter">𝕏</a>
+          <a href="#" class="social-btn" aria-label="WhatsApp">W</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Properties</h4>
+        <ul>
+          <li><a href="category.html?type=Apartments">Apartments</a></li>
+          <li><a href="category.html?type=Villas%20%26%20Duplexes">Villas &amp; Duplexes</a></li>
+          <li><a href="category.html?type=Commercial">Commercial</a></li>
+          <li><a href="category.html?type=Land">Land</a></li>
+          <li><a href="category.html?type=Off-Plan">Off-Plan</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="about.html#team">Our Team</a></li>
+          <li><a href="investment.html">Investment Reports</a></li>
+          <li><a href="listings.html">All Listings</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="contact.html">Lagos Office</a></li>
+          <li><a href="contact.html">Abuja Office</a></li>
+          <li><a href="mailto:hello@dimoraview.com">hello@dimoraview.com</a></li>
+          <li><a href="tel:+2348000000000">+234 800 000 0000</a></li>
+          <li><a href="contact.html">Book Viewing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Dimora View Properties. All rights reserved.</span>
+      <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Use</a> &nbsp;·&nbsp; <a href="#">Cookie Policy</a></span>
+    </div>
+  </footer>`;
+}
+
+function bookingModalHTML() {
+  return `
+  <div class="modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <h3>Book a Viewing</h3>
+      <p>Fill in your details and one of our agents will reach out within 24 hours to arrange your visit.</p>
+      <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your name" /></div>
+      <div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
+      <div class="form-group"><label>Phone</label><input type="tel" placeholder="+234 000 000 0000" /></div>
+      <div class="form-group">
+        <label>Property Interest</label>
+        <select><option>Residential</option><option>Commercial</option><option>Investment / Rental</option><option>Land</option></select>
+      </div>
+      <div class="form-group">
+        <label>Preferred Location</label>
+        <select><option>Lagos</option><option>Abuja</option><option>Port Harcourt</option><option>Dubai</option><option>London</option><option>Accra</option></select>
+      </div>
+      <div class="form-group"><label>Message (Optional)</label><textarea rows="3" placeholder="Any specifics or questions…"></textarea></div>
+      <button class="btn-primary" style="width:100%;text-align:center;" onclick="submitBooking()">Submit Request</button>
+    </div>
+  </div>`;
+}
+
+function mountPartials() {
+  const f = document.getElementById('footer-mount');
+  if (f) f.innerHTML = footerHTML();
+  const m = document.getElementById('modal-mount');
+  if (m) m.innerHTML = bookingModalHTML();
+}
+
+/* helper */
+function qs(name) { return new URLSearchParams(location.search).get(name); }
+
+</script>
 <script>
 /* ── populate type dropdowns from the shared PROPERTY_TYPES ── */
 const typeOpts = PROPERTY_TYPES.map(t => t.name);
