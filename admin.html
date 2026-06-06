@@ -826,6 +826,29 @@ table.admin-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
 .editor-actions { display: flex; gap: 12px; margin-top: 8px; }
 .field-err { color: #b3402f; font-size: .78rem; margin-bottom: 14px; min-height: 1em; }
 
+/* ── LOGIN GATE ── */
+.admin-gate {
+  position: fixed; inset: 0; z-index: 5000;
+  background: linear-gradient(160deg, #1a1612 0%, #2a221a 45%, #141210 100%);
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+}
+.admin-gate::before {
+  content: ''; position: absolute; inset: 0; opacity: .12;
+  background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1800&auto=format&fit=crop&q=80') center/cover;
+}
+.login-card {
+  position: relative; z-index: 2; width: 100%; max-width: 420px;
+  background: var(--warm-white); border-radius: 6px; padding: 44px 40px;
+  box-shadow: 0 30px 80px rgba(13,13,11,.5); animation: heroIn .6s cubic-bezier(.22,1,.36,1) both;
+}
+.login-card .brand { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; color: var(--charcoal); margin-bottom: 4px; }
+.login-card .eyebrow { font-size: .72rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); margin-bottom: 26px; }
+.login-card h2 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 1.55rem; color: var(--charcoal); margin-bottom: 6px; }
+.login-card .hint { font-size: .84rem; color: var(--muted); margin-bottom: 26px; line-height: 1.5; }
+.login-err { color: #b3402f; font-size: .82rem; min-height: 1.1em; margin-bottom: 12px; }
+.logout-btn { border: 1px solid var(--border); background: white; border-radius: 3px; cursor: pointer; padding: 11px 18px; font-family: 'DM Sans', sans-serif; font-size: .74rem; color: var(--muted); transition: all .2s; }
+.logout-btn:hover { border-color: var(--gold); color: var(--gold); }
+
 @media (max-width: 900px) {
   .dash { padding: 32px 22px 70px; }
   .stat-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -843,6 +866,20 @@ table.admin-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
 </style>
 </head>
 <body>
+
+<!-- ░░ SIGN-IN GATE ░░ -->
+<div class="admin-gate" id="adminGate">
+  <div class="login-card">
+    <div class="brand">Dimora View</div>
+    <div class="eyebrow">Admin Portal</div>
+    <h2>Sign in to continue</h2>
+    <p class="hint">Enter your administrator credentials to manage the property catalogue.</p>
+    <div class="form-group"><label>Username</label><input id="loginUser" type="text" autocomplete="username" placeholder="Username" onkeydown="if(event.key==='Enter')doLogin()" /></div>
+    <div class="form-group"><label>Password</label><input id="loginPass" type="password" autocomplete="current-password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()" /></div>
+    <div class="login-err" id="loginErr"></div>
+    <button class="btn-primary" style="width:100%;text-align:center;justify-content:center;" onclick="doLogin()">Sign In</button>
+  </div>
+</div>
 
 <nav id="mainNav" class="solid">
   <a href="index.html" class="nav-logo">Dimora View</a>
@@ -887,6 +924,7 @@ table.admin-table { width: 100%; border-collapse: collapse; font-size: .86rem; }
     <select id="typeFilter" onchange="render()"><option value="">All types</option></select>
     <button class="btn-outline" style="padding:11px 20px;font-size:.74rem;" onclick="resetAll()">Reset to defaults</button>
     <button class="btn-primary" style="padding:11px 22px;font-size:.78rem;" onclick="openEditor()">+ Add Listing</button>
+    <button class="logout-btn" onclick="doLogout()">Log out</button>
   </div>
 
   <!-- TABLE -->
@@ -1469,10 +1507,49 @@ function resetAll() {
   render();
 }
 
-/* init */
-render();
-mountPartials();
-initChrome();
+/* ════════════════ SIGN-IN GATE ════════════════
+   NOTE: this is a static site with no server, so this login is a
+   front-desk gate, not bank-grade security — the check runs in the
+   browser. To change the credentials, edit the two values below.   */
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'dimora2025';
+const AUTH_KEY = 'dimora_admin_auth';
+
+function showDashboard() {
+  document.getElementById('adminGate').style.display = 'none';
+  document.body.style.overflow = '';
+  render();              // build stats + table only once signed in
+  mountPartials();
+  initChrome();
+}
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value;
+  const err = document.getElementById('loginErr');
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    try { sessionStorage.setItem(AUTH_KEY, '1'); } catch (e) {}
+    err.textContent = '';
+    showDashboard();
+  } else {
+    err.textContent = 'Incorrect username or password. Please try again.';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+  }
+}
+function doLogout() {
+  try { sessionStorage.removeItem(AUTH_KEY); } catch (e) {}
+  location.reload();
+}
+
+/* init — show dashboard if already signed in this session, else the gate */
+let authed = false;
+try { authed = sessionStorage.getItem(AUTH_KEY) === '1'; } catch (e) {}
+if (authed) {
+  showDashboard();
+} else {
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => { var el = document.getElementById('loginUser'); if (el) el.focus(); }, 100);
+}
 </script>
 </body>
 </html>
