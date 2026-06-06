@@ -126,6 +126,16 @@ function listingCardHTML(l) {
   </a>`;
 }
 
+function typeCardHTML(t) {
+  return `
+  <a class="type-card" href="category.html?type=${encodeURIComponent(t.name)}">
+    <div class="type-icon">${t.icon}</div>
+    <div class="type-name">${t.name}</div>
+    <div class="type-desc">${t.desc}</div>
+    <div class="type-count">${t.count}</div>
+  </a>`;
+}
+
 function locCardHTML(l) {
   return `
   <a class="loc-card" href="listings.html?loc=${encodeURIComponent(l.name)}">
@@ -244,8 +254,8 @@ function footerHTML() {
           <li><a href="about.html">About Us</a></li>
           <li><a href="about.html#team">Our Team</a></li>
           <li><a href="investment.html">Investment Reports</a></li>
+          <li><a href="listings.html">All Listings</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="admin.html">Admin Portal</a></li>
         </ul>
       </div>
       <div class="footer-col">

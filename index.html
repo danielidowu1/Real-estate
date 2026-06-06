@@ -5,275 +5,396 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Dimora View Properties | Premium Real Estate Investment</title>
 
+<!-- SEO Meta Tags -->
 <meta name="description" content="Dimora View Properties — discover premium real estate across top locations. Buy, invest, and earn long-term rental revenue. Luxury homes, apartments, villas, and commercial properties." />
-<meta name="keywords" content="Dimora View Properties, real estate, property investment, luxury homes, apartments, villas, rental income" />
+<meta name="keywords" content="Dimora View Properties, real estate, property investment, luxury homes, apartments, villas, rental income, real estate investment, buy property" />
 <meta name="author" content="Dimora View Properties" />
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://dimoraviewproperties.com/" />
 
+<!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Dimora View Properties | Premium Real Estate Investment" />
-<meta property="og:description" content="Find your dream property or invest for long-term returns." />
+<meta property="og:description" content="Find your dream property or invest for long-term returns. Dimora View offers premium residential and commercial listings across top global locations." />
 <meta property="og:url" content="https://dimoraviewproperties.com/" />
+<meta property="og:image" content="https://dimoraviewproperties.com/og-image.jpg" />
 
-<script type="application/ld+json">
-{ "@context": "https://schema.org", "@type": "RealEstateAgent", "name": "Dimora View Properties",
-  "url": "https://dimoraviewproperties.com",
-  "description": "Premium real estate agency offering residential and commercial properties with investment returns.",
-  "address": { "@type": "PostalAddress", "addressCountry": "NG" } }
-</script>
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Dimora View Properties" />
+<meta name="twitter:description" content="Premium real estate investment with proven rental yield returns." />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="assets/styles.css" />
-
-<style>
-/* HERO (home only) */
-#hero { height: 100vh; min-height: 680px; position: relative; display: flex; align-items: flex-end; overflow: hidden; }
-.hero-bg { position: absolute; inset: 0; background: linear-gradient(160deg, #1a1612 0%, #2a221a 40%, #1a1612 100%); }
-.hero-bg::before { content: ''; position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&auto=format&fit=crop&q=80') center/cover; opacity: .45; }
-.hero-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,13,11,.9) 0%, rgba(13,13,11,.3) 60%, transparent 100%); }
-.hero-content { position: relative; z-index: 2; padding: 0 60px 80px; max-width: 760px; animation: heroIn .9s cubic-bezier(.22,1,.36,1) both; }
-.hero-eyebrow { font-size: .75rem; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
-.hero-eyebrow::before { content:''; width:32px; height:1px; background:var(--gold); }
-.hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.08; color: var(--warm-white); margin-bottom: 24px; }
-.hero-title em { font-style: italic; color: var(--gold-light); }
-.hero-sub { font-size: 1rem; font-weight: 300; line-height: 1.7; color: rgba(247,243,237,.7); max-width: 480px; margin-bottom: 44px; }
-.hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-.hero-stats { position: absolute; right: 60px; bottom: 80px; z-index: 2; display: flex; flex-direction: column; gap: 24px; animation: heroIn 1.1s cubic-bezier(.22,1,.36,1) .2s both; }
-.stat-pill { background: rgba(247,243,237,.08); backdrop-filter: blur(12px); border: 1px solid rgba(201,168,76,.25); border-radius: 4px; padding: 14px 22px; text-align: right; }
-.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--gold-light); line-height: 1; }
-.stat-lbl { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(247,243,237,.5); margin-top: 2px; }
-.scroll-hint { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(247,243,237,.4); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; }
-.scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, rgba(201,168,76,.6), transparent); animation: scrollPulse 2s infinite; }
-@keyframes scrollPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
-#locations { padding-bottom: 80px; }
-#property-types { background: var(--ivory); }
-#listings { padding: 100px 60px; }
-
-/* HOME mobile limits: locations -> 3 cards, featured -> 4 cards */
-@media (max-width: 900px) {
-  .hero-content { padding: 0 28px 60px; }
-  .hero-stats { display: none; }
-  #home-locations .loc-card:nth-child(n+4) { display: none; }
-  #home-listings .listing-card:nth-child(n+5) { display: none; }
-  .view-more-mobile { display: block; }
-}
-.view-more-mobile { display: none; text-align: center; margin-top: 26px; }
-</style>
 </head>
-<body class="home">
+<body>
 
 <!-- NAV -->
 <nav id="mainNav">
-  <a href="index.html" class="nav-logo">Dimora View</a>
-  <ul class="nav-links">
-    <li><a href="locations.html">Locations</a></li>
-    <li><a href="listings.html">Properties</a></li>
-    <li><a href="investment.html">Investment</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="admin.html">Admin</a></li>
-    <li><a href="contact.html" class="nav-cta">Book Viewing</a></li>
-  </ul>
-  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+<a href="index.html" class="nav-logo">Dimora View</a>
+<ul class="nav-links">
+<li><a href="#locations">Locations</a></li>
+<li><a href="#property-types">Properties</a></li>
+<li><a href="#investment">Investment</a></li>
+<li><a href="#listings">Listings</a></li>
+<li><a href="#" class="nav-cta" onclick="openModal();return false;">Book Viewing</a></li>
+</ul>
+<div class="hamburger" id="hamburger">
+<span></span><span></span><span></span>
+</div>
 </nav>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <button class="mobile-close" id="mobileClose">✕</button>
-  <a href="locations.html">Locations</a>
-  <a href="listings.html">Properties</a>
-  <a href="investment.html">Investment</a>
-  <a href="about.html">About</a>
-  <a href="admin.html">Admin</a>
-  <a href="contact.html">Book Viewing</a>
+<button class="mobile-close" id="mobileClose">✕</button>
+<a href="#locations" onclick="closeMobile()">Locations</a>
+<a href="#property-types" onclick="closeMobile()">Properties</a>
+<a href="#investment" onclick="closeMobile()">Investment</a>
+<a href="#listings" onclick="closeMobile()">Listings</a>
+<a href="#" onclick="openModal();closeMobile();return false;">Book Viewing</a>
 </div>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <p class="hero-eyebrow">Curated Real Estate</p>
-    <h1 class="hero-title">Find your <em>perfect</em><br>view property</h1>
-    <p class="hero-sub">Dimora View Properties connects discerning buyers with exceptional homes and high-yield investment properties across premier locations worldwide.</p>
-    <div class="hero-actions">
-      <a href="listings.html" class="btn-primary">Explore Listings</a>
-      <a href="investment.html" class="btn-ghost">Investment Returns</a>
-    </div>
-  </div>
-  <div class="hero-stats">
-    <div class="stat-pill"><div class="stat-num">1,200+</div><div class="stat-lbl">Properties Listed</div></div>
-    <div class="stat-pill"><div class="stat-num">14%</div><div class="stat-lbl">Avg. Annual Yield</div></div>
-    <div class="stat-pill"><div class="stat-num">98%</div><div class="stat-lbl">Client Satisfaction</div></div>
-  </div>
-  <div class="scroll-hint"><div class="scroll-line"></div>Scroll</div>
+<div class="hero-bg"></div>
+<div class="hero-content">
+<p class="hero-eyebrow">Curated Real Estate</p>
+<h1 class="hero-title">Find your <em>perfect</em><br>view property</h1>
+<p class="hero-sub">Dimora View Properties connects discerning buyers with exceptional homes and high-yield investment properties across premier locations worldwide.</p>
+<div class="hero-actions">
+<a href="#listings" class="btn-primary">Explore Listings</a>
+<a href="#investment" class="btn-ghost">Investment Returns</a>
+</div>
+</div>
+<div class="hero-stats">
+<div class="stat-pill">
+<div class="stat-num">1,200+</div>
+<div class="stat-lbl">Properties Listed</div>
+</div>
+<div class="stat-pill">
+<div class="stat-num">14%</div>
+<div class="stat-lbl">Avg. Annual Yield</div>
+</div>
+<div class="stat-pill">
+<div class="stat-num">98%</div>
+<div class="stat-lbl">Client Satisfaction</div>
+</div>
+</div>
+<div class="scroll-hint">
+<div class="scroll-line"></div>
+Scroll
+</div>
 </section>
 
 <!-- SEARCH STRIP -->
 <div class="search-strip">
-  <select id="s-type" style="border-right:none;">
-    <option value="">Property Type</option>
-    <option>Apartment</option><option>Villa</option><option>Townhouse</option>
-    <option>Commercial</option><option>Land</option><option>Penthouse</option>
-  </select>
-  <select id="s-loc" style="border-right:none;">
-    <option value="">Location</option>
-    <option>Lagos</option><option>Abuja</option><option>Port Harcourt</option>
-    <option>Dubai</option><option>London</option><option>Accra</option>
-  </select>
-  <select id="s-budget" style="border-right:none;">
-    <option value="">Budget</option>
-    <option>Under ₦50M</option><option>₦50M – ₦150M</option>
-    <option>₦150M – ₦500M</option><option>Above ₦500M</option>
-  </select>
-  <input id="s-keyword" type="text" placeholder="Search by keyword…" />
-  <button class="btn-primary" onclick="homeSearch()" style="padding:0 32px;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;">Search</button>
+<select id="s-type" style="border-right:none;">
+<option value="">Property Type</option>
+<option>Apartment</option><option>Villa</option><option>Townhouse</option>
+<option>Commercial</option><option>Land</option><option>Penthouse</option>
+</select>
+<select id="s-loc" style="border-right:none;">
+<option value="">Location</option>
+<option>Lagos</option><option>Abuja</option><option>Port Harcourt</option>
+<option>Dubai</option><option>London</option><option>Accra</option>
+</select>
+<select id="s-budget" style="border-right:none;">
+<option value="">Budget</option>
+<option>Under ₦50M</option><option>₦50M – ₦150M</option>
+<option>₦150M – ₦500M</option><option>Above ₦500M</option>
+</select>
+<input id="s-keyword" type="text" placeholder="Search by keyword…" />
+<button class="btn-primary" onclick="doSearch()" style="padding:0 32px; font-size:.82rem; letter-spacing:.1em; text-transform:uppercase;">Search</button>
 </div>
 
-<!-- ============ REORDER ZONE: on mobile, Listings jumps above Property Types ============ -->
+<!-- ░░ reorder-zone: on mobile, Listings moves above Property categories ░░ -->
 <div class="reorder-zone">
 
-  <!-- LOCATIONS CAROUSEL -->
-  <section id="locations">
-    <div class="loc-header">
-      <div>
-        <p class="section-eyebrow">Browse by Destination</p>
-        <h2 class="section-title">Where would you<br>like to invest?</h2>
-      </div>
-      <div class="loc-controls">
-        <button class="carousel-btn" id="prevBtn" aria-label="Previous">&#8592;</button>
-        <button class="carousel-btn" id="nextBtn" aria-label="Next">&#8594;</button>
-      </div>
-    </div>
-    <div class="carousel-track-wrap" id="locWrap">
-      <div class="carousel-track" id="home-locations"></div>
-    </div>
-    <p class="swipe-hint">Swipe to explore more <span>→</span></p>
-    <div class="more-btn-wrap"><a class="btn-outline" href="locations.html">View All Locations</a></div>
-  </section>
-
-  <!-- FEATURED LISTINGS ("Curated picks") -->
-  <section id="listings">
-    <div class="listings-header">
-      <div>
-        <p class="section-eyebrow">Featured Properties</p>
-        <h2 class="section-title">Curated picks<br>just for you</h2>
-      </div>
-      <a href="listings.html" class="btn-outline desktop-only">View All Listings</a>
-    </div>
-    <div class="listings-grid" id="home-listings"></div>
-    <p class="swipe-hint">Swipe through picks <span>→</span></p>
-    <div class="view-more-mobile"><a class="btn-primary" href="listings.html">View More Listings</a></div>
-  </section>
-
-  <!-- PROPERTY TYPES -->
-  <section id="property-types">
-    <p class="section-eyebrow">What Are You Looking For</p>
-    <h2 class="section-title">Property categories<br>tailored to your goals</h2>
-    <p class="section-sub">Whether you're searching for a family home, a luxury retreat, or a high-yield investment asset — we have the right category for you.</p>
-    <div class="types-grid" id="typesGrid"></div>
-  </section>
-
+<!-- LOCATIONS CAROUSEL -->
+<section id="locations">
+<div class="loc-header">
+<div>
+<p class="section-eyebrow">Browse by Destination</p>
+<h2 class="section-title">Where would you<br>like to invest?</h2>
 </div>
+<div class="loc-controls">
+<button class="carousel-btn" id="prevBtn" aria-label="Previous">&#8592;</button>
+<button class="carousel-btn" id="nextBtn" aria-label="Next">&#8594;</button>
+</div>
+</div>
+<div class="carousel-track-wrap">
+<div class="carousel-track" id="carouselTrack"></div>
+</div>
+<p class="swipe-hint">Swipe to explore more <span>→</span></p>
+<div class="more-btn-wrap">
+<a class="btn-outline" href="locations.html">View All Locations</a>
+</div>
+</section>
+
+<!-- PROPERTY TYPES -->
+<section id="property-types">
+<p class="section-eyebrow">What Are You Looking For</p>
+<h2 class="section-title">Property categories<br>tailored to your goals</h2>
+<p class="section-sub">Whether you're searching for a family home, a luxury retreat, or a high-yield investment asset — we have the right category for you.</p>
+<div class="types-grid" id="typesGrid"></div>
+</section>
+
+<!-- FEATURED LISTINGS -->
+<section id="listings">
+<div class="listings-header">
+<div>
+<p class="section-eyebrow">Featured Properties</p>
+<h2 class="section-title">Curated picks<br>just for you</h2>
+</div>
+<a href="listings.html" class="btn-outline desktop-only">View All Listings</a>
+</div>
+<div class="listings-grid" id="listingsGrid"></div>
+<p class="swipe-hint">Swipe through picks <span>→</span></p>
+<div class="view-more-mobile"><a class="btn-outline" href="listings.html">View More Listings</a></div>
+</section>
+
+</div><!-- /reorder-zone -->
 
 <!-- INVESTMENT -->
 <section id="investment">
-  <p class="section-eyebrow">Why Invest with Us</p>
-  <h2 class="section-title">Long-term wealth.<br>Real annual returns.</h2>
-  <p class="section-sub">Many of our properties are positioned on high-demand rental corridors, delivering consistent passive income alongside capital appreciation.</p>
-  <div class="invest-grid">
-    <div class="invest-cards" id="investCards"></div>
-    <div class="invest-stats">
-      <div class="big-stat"><div class="big-num">14.2%</div><div class="big-lbl">Average annual rental yield across our portfolio</div></div>
-      <div class="big-stat"><div class="big-num">3.8×</div><div class="big-lbl">Average 10-year capital growth multiple for investors</div></div>
-      <div class="big-stat"><div class="big-num">₦2.4B+</div><div class="big-lbl">Total rental income generated for clients this year</div></div>
-      <div class="invest-chart">
-        <div class="chart-label">Projected Annual Returns (%)</div>
-        <div id="returnChart"></div>
-      </div>
-    </div>
-  </div>
+<p class="section-eyebrow">Why Invest with Us</p>
+<h2 class="section-title">Long-term wealth.<br>Real annual returns.</h2>
+<p class="section-sub">Many of our properties are positioned on high-demand rental corridors, delivering consistent passive income alongside capital appreciation.</p>
+<div class="invest-grid">
+<div class="invest-cards" id="investCards"></div>
+<div class="invest-stats">
+<div class="big-stat">
+<div class="big-num">14.2%</div>
+<div class="big-lbl">Average annual rental yield across our portfolio</div>
+</div>
+<div class="big-stat">
+<div class="big-num">3.8×</div>
+<div class="big-lbl">Average 10-year capital growth multiple for investors</div>
+</div>
+<div class="big-stat">
+<div class="big-num">₦2.4B+</div>
+<div class="big-lbl">Total rental income generated for clients this year</div>
+</div>
+<div class="invest-chart">
+<div class="chart-label">Projected Annual Returns (%)</div>
+<div id="returnChart"></div>
+</div>
+</div>
+</div>
+<div class="more-btn-wrap"><a class="btn-outline" href="investment.html">Explore Investment &amp; ROI Calculator</a></div>
 </section>
 
 <!-- TESTIMONIALS -->
 <section id="testimonials">
-  <p class="section-eyebrow">Client Stories</p>
-  <h2 class="section-title">Trusted by investors<br>and homeowners alike</h2>
-  <div class="testi-grid" id="testiGrid"></div>
+<p class="section-eyebrow">Client Stories</p>
+<h2 class="section-title">Trusted by investors<br>and homeowners alike</h2>
+<div class="testi-grid" id="testiGrid"></div>
 </section>
 
 <!-- CTA BANNER -->
 <div id="cta-banner">
-  <h2>Ready to find your next<br>property or investment?</h2>
-  <a href="contact.html" class="cta-dark">Book a Free Consultation</a>
+<h2>Ready to find your next<br>property or investment?</h2>
+<a href="#" class="cta-dark" onclick="openModal();return false;">Book a Free Consultation</a>
 </div>
 
 <!-- PARTNERS -->
 <section id="partners">
-  <p class="partners-label">Our Trusted Partners &amp; Collaborators</p>
-  <div class="partners-track-wrap"><div class="partners-track" id="partnersTrack"></div></div>
+<p class="partners-label">Our Trusted Partners &amp; Collaborators</p>
+<div class="partners-track-wrap">
+<div class="partners-track" id="partnersTrack"></div>
+</div>
 </section>
 
-<div id="footer-mount"></div>
-<div id="modal-mount"></div>
+<!-- FOOTER -->
+<footer>
+<div class="footer-grid">
+<div class="footer-brand">
+<a href="index.html" class="nav-logo">Dimora View Properties</a>
+<p>Premium real estate across Nigeria and beyond. We connect visionary buyers with exceptional properties and investment opportunities.</p>
+<div class="footer-socials">
+<a href="#" class="social-btn" aria-label="Instagram">&#9679;</a>
+<a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+<a href="#" class="social-btn" aria-label="Twitter">𝕏</a>
+<a href="#" class="social-btn" aria-label="WhatsApp">W</a>
+</div>
+</div>
+<div class="footer-col">
+<h4>Properties</h4>
+<ul>
+<li><a href="category.html?type=Apartments">Apartments</a></li>
+<li><a href="category.html?type=Villas%20%26%20Duplexes">Villas &amp; Duplexes</a></li>
+<li><a href="category.html?type=Commercial">Commercial</a></li>
+<li><a href="category.html?type=Land">Land</a></li>
+<li><a href="category.html?type=Off-Plan">Off-Plan</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Company</h4>
+<ul>
+<li><a href="about.html">About Us</a></li>
+<li><a href="about.html#team">Our Team</a></li>
+<li><a href="investment.html">Investment Reports</a></li>
+<li><a href="listings.html">All Listings</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</div>
+<div class="footer-col">
+<h4>Contact</h4>
+<ul>
+<li><a href="contact.html">Lagos Office</a></li>
+<li><a href="contact.html">Abuja Office</a></li>
+<li><a href="mailto:hello@dimoraview.com">hello@dimoraview.com</a></li>
+<li><a href="tel:+2348000000000">+234 800 000 0000</a></li>
+<li><a href="contact.html">Book Viewing</a></li>
+</ul>
+</div>
+</div>
+<div class="footer-bottom">
+<span>© 2025 Dimora View Properties. All rights reserved.</span>
+<span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Use</a> &nbsp;·&nbsp; <a href="#">Cookie Policy</a></span>
+</div>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
+<div class="modal">
+<button class="modal-close" onclick="closeModal()">✕</button>
+<h3>Book a Viewing</h3>
+<p>Fill in your details and one of our agents will reach out within 24 hours to arrange your visit.</p>
+<div class="form-group"><label>Full Name</label><input type="text" placeholder="Your name" /></div>
+<div class="form-group"><label>Email</label><input type="email" placeholder="you@email.com" /></div>
+<div class="form-group"><label>Phone</label><input type="tel" placeholder="+234 000 000 0000" /></div>
+<div class="form-group">
+<label>Property Interest</label>
+<select>
+<option>Residential</option><option>Commercial</option>
+<option>Investment / Rental</option><option>Land</option>
+</select>
+</div>
+<div class="form-group">
+<label>Preferred Location</label>
+<select>
+<option>Lagos</option><option>Abuja</option><option>Port Harcourt</option>
+<option>Dubai</option><option>London</option><option>Accra</option>
+</select>
+</div>
+<div class="form-group"><label>Message (Optional)</label><textarea rows="3" placeholder="Any specifics or questions…"></textarea></div>
+<button class="btn-primary" style="width:100%; justify-content:center;" onclick="submitBooking()">Submit Request</button>
+</div>
+</div>
+
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script src="assets/app.js"></script>
 <script>
-// Render featured listings (6 — mobile shows 4 via CSS)
-document.getElementById('home-listings').innerHTML = getListings().slice(0, 6).map(listingCardHTML).join('');
-// Locations (mobile shows 3 via CSS)
-document.getElementById('home-locations').innerHTML = LOCATIONS.map(locCardHTML).join('');
-// Property types
-document.getElementById('typesGrid').innerHTML = PROPERTY_TYPES.map(t => `
-  <a class="type-card" href="category.html?type=${encodeURIComponent(t.name)}">
-    <div class="type-icon">${t.icon}</div>
-    <div class="type-name">${t.name}</div>
-    <div class="type-desc">${t.desc}</div>
-    <div class="type-count">${t.count}</div>
-  </a>`).join('');
-// Invest cards
-document.getElementById('investCards').innerHTML = INVEST_CARDS.map(c => `
-  <div class="invest-card"><div class="invest-icon">${c.icon}</div>
-    <div><div class="invest-card-title">${c.title}</div><div class="invest-card-desc">${c.desc}</div></div></div>`).join('');
-// Testimonials
-document.getElementById('testiGrid').innerHTML = TESTIMONIALS.map(t => `
-  <div class="testi-card"><div class="stars">${'★'.repeat(t.stars)}</div>
-    <p class="testi-text">"${t.text}"</p>
-    <div class="testi-author"><div class="testi-avatar">${t.init}</div>
-      <div><div class="testi-name">${t.name}</div><div class="testi-role">${t.role}</div></div></div></div>`).join('');
-// Partners (doubled for seamless marquee)
-document.getElementById('partnersTrack').innerHTML = PARTNERS.concat(PARTNERS).map(p => `<span class="partner-logo">${p}</span>`).join('');
-// Return chart
-document.getElementById('returnChart').innerHTML = RETURN_DATA.map(r => `
-  <div class="bar-row"><span class="bar-yr">${r.yr}</span>
-    <div class="bar-wrap"><div class="bar-fill" data-w="${r.val*5}" style="width:0"></div></div>
-    <span class="bar-val">${r.val}%</span></div>`).join('');
-
-mountPartials();
-initChrome();
-initCarousel('#locWrap', '#prevBtn', '#nextBtn');
-nudgeCarousel('#locWrap');
-
-// Search → go to listings page with params
-function homeSearch() {
-  const t = document.getElementById('s-type').value;
-  const l = document.getElementById('s-loc').value;
-  const k = document.getElementById('s-keyword').value;
-  const p = new URLSearchParams();
-  if (t) p.set('type', t); if (l) p.set('loc', l); if (k) p.set('kw', k);
-  location.href = 'listings.html' + (p.toString() ? '?' + p.toString() : '');
+/* ── RENDER (uses shared data + storage so Admin edits show up here) ── */
+function renderLocations() {
+  document.getElementById('carouselTrack').innerHTML = LOCATIONS.map(locCardHTML).join('');
+}
+function renderTypes() {
+  document.getElementById('typesGrid').innerHTML = PROPERTY_TYPES.map(typeCardHTML).join('');
+}
+function renderFeatured() {
+  // first 6 from the live catalogue (mobile shows 4 via CSS)
+  document.getElementById('listingsGrid').innerHTML = getListings().slice(0, 6).map(listingCardHTML).join('');
+}
+function renderInvest() {
+  document.getElementById('investCards').innerHTML = INVEST_CARDS.map(c => `
+    <div class="invest-card">
+      <div class="invest-icon">${c.icon}</div>
+      <div>
+        <div class="invest-card-title">${c.title}</div>
+        <div class="invest-card-desc">${c.desc}</div>
+      </div>
+    </div>`).join('');
+}
+function renderChart() {
+  document.getElementById('returnChart').innerHTML = RETURN_DATA.map(r => `
+    <div class="bar-row">
+      <span class="bar-yr">${r.yr}</span>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${r.val * 5}%"></div></div>
+      <span class="bar-val">${r.val}%</span>
+    </div>`).join('');
+}
+function renderTestimonials() {
+  document.getElementById('testiGrid').innerHTML = TESTIMONIALS.map(t => `
+    <div class="testi-card">
+      <div class="stars">${'★'.repeat(t.stars)}</div>
+      <p class="testi-text">"${t.text}"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">${t.init}</div>
+        <div>
+          <div class="testi-name">${t.name}</div>
+          <div class="testi-role">${t.role}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function renderPartners() {
+  const doubled = PARTNERS.concat(PARTNERS);
+  document.getElementById('partnersTrack').innerHTML = doubled.map(p => `<span class="partner-logo">${p}</span>`).join('');
 }
 
-// Animate bars when in view
-const chartObs = new IntersectionObserver(es => {
-  if (es[0].isIntersecting) {
-    document.querySelectorAll('.bar-fill').forEach(b => { b.style.width = b.dataset.w + '%'; });
+/* ── DESKTOP CAROUSEL (mobile uses native swipe via CSS) ── */
+let carouselPos = 0;
+const CARD_W = 324; // 300 + 24 gap
+function updateCarousel() {
+  document.getElementById('carouselTrack').style.transform = `translateX(-${carouselPos}px)`;
+}
+function getVisible() {
+  return Math.max(1, Math.floor(document.querySelector('.carousel-track-wrap').offsetWidth / CARD_W));
+}
+if (window.innerWidth > 900) {
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    const max = (LOCATIONS.length - getVisible()) * CARD_W;
+    carouselPos = Math.min(carouselPos + CARD_W, Math.max(0, max));
+    updateCarousel();
+  });
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    carouselPos = Math.max(carouselPos - CARD_W, 0);
+    updateCarousel();
+  });
+}
+
+/* ── SEARCH → dedicated listings page (dynamic) ── */
+function doSearch() {
+  const type = document.getElementById('s-type').value;
+  const loc = document.getElementById('s-loc').value;
+  const kw = document.getElementById('s-keyword').value;
+  const params = new URLSearchParams();
+  if (type) params.set('type', type);
+  if (loc) params.set('loc', loc);
+  if (kw) params.set('kw', kw);
+  window.location.href = 'listings.html' + (params.toString() ? '?' + params.toString() : '');
+}
+
+/* ── INIT ── */
+renderLocations();
+renderTypes();
+renderFeatured();
+renderInvest();
+renderChart();
+renderTestimonials();
+renderPartners();
+initChrome();
+nudgeCarousel('.carousel-track-wrap');
+nudgeCarousel('#listingsGrid');
+
+/* chart bar animation on scroll */
+const chartObs = new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting) {
+    document.querySelectorAll('.bar-fill').forEach(b => {
+      const w = b.style.width; b.style.width = '0%';
+      setTimeout(() => { b.style.width = w; b.style.transition = 'width 1.2s ease'; }, 50);
+    });
     chartObs.disconnect();
   }
 }, { threshold: 0.3 });
-chartObs.observe(document.getElementById('returnChart'));
+const chartEl = document.getElementById('returnChart');
+if (chartEl) chartObs.observe(chartEl);
 </script>
 </body>
 </html>
